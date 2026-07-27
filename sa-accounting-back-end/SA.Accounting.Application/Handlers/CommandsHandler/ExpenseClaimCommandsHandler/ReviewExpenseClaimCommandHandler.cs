@@ -4,60 +4,33 @@ using SA.Accounting.Application.Errors;
 using SA.Accounting.Core.Entities.ExpenseClaims;
 using SA.Accounting.Core.Entities.Interfaces;
 using SA.Accounting.Core.Enums;
-using SA.Accounting.Infrastructure.Presistance.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SA.Accounting.Application.Handlers.CommandsHandler.ExpenseClaimCommandsHandler;
-
 public class ReviewExpenseClaimHandler(IUnitOfWork unitOfWork) : IRequestHandler<ReviewExpenseClaimCommand, Result>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     public async Task<Result> Handle(ReviewExpenseClaimCommand command,CancellationToken cancellationToken)
     {
-        var request = command.Request;
-
+        // check expense claim is exist
         var claim = await _unitOfWork.ExpenseClaims
             .FindAsync(x => x.Id == command.Id, [d=>d.Include(i=>i.Items)],cancellationToken);
 
         if (claim is null)
             return Result.Failure(ExpenseClaimErrors.NotFound);
 
-        // 1. State check
+        // State check
         if (claim.CurrentState != ExpenseClaimState.Submitted)
             return Result.Failure(ExpenseClaimErrors.CannotReview);
 
-        // 2. No duplicate items in request
-        var requestItemIds = request.Items.Select(i => i.ExpenseClaimItemId).ToList();
-        if (requestItemIds.Count != requestItemIds.Distinct().Count())
-            return Result.Failure(ExpenseClaimErrors.DuplicateItemReview);
-
-        // 3. All claim items must be reviewed (no missing)
+        // All claim items must be reviewed (no missing)
         var claimItemIds = claim.Items.Select(i => i.Id).ToHashSet();
-        var requestItemIdSet = requestItemIds.ToHashSet();
+        var requestItemIdSet = command.Request.Items.Select(x=>x.ExpenseClaimItemId).ToHashSet();
 
         if (!claimItemIds.SetEquals(requestItemIdSet))
             return Result.Failure(ExpenseClaimErrors.ReviewMustCoverAllItems);
 
-        // 4. Validate each item state
-        foreach (var itemReq in request.Items)
-        {
-            if (itemReq.State != ExpenseClaimItemState.Approved &&
-                itemReq.State != ExpenseClaimItemState.Rejected)
-            {
-                return Result.Failure(ExpenseClaimErrors.InvalidItemState);
-            }
-
-            if (itemReq.State == ExpenseClaimItemState.Rejected
-                && string.IsNullOrWhiteSpace(itemReq.RejectionReason))
-            {
-                return Result.Failure(ExpenseClaimErrors.RejectionReasonRequired);
-            }
-        }
-
-        // 5. Apply review to each item
-        var reviewDict = request.Items.ToDictionary(i => i.ExpenseClaimItemId);
+        // Apply review to each item
+        var reviewDict = command.Request.Items.ToDictionary(i => i.ExpenseClaimItemId);
         foreach (var item in claim.Items)
         {
             var review = reviewDict[item.Id];
@@ -75,22 +48,21 @@ public class ReviewExpenseClaimHandler(IUnitOfWork unitOfWork) : IRequestHandler
         var finalState = (approvedCount, rejectedCount) switch
         {
             var (a, _) when a == totalCount => ExpenseClaimState.Approved,
-            var (_, r) when r == totalCount => ExpenseClaimState.Rejected,
-            _ => ExpenseClaimState.PartiallyApproved
+            _ => ExpenseClaimState.Rejected
         };
 
         var fromState = claim.CurrentState;
         claim.CurrentState = finalState;
 
-        // 7. Add history
+        // Add history
         claim.Histories.Add(new ExpenseClaimHistory
         {
             ExpenseClaimId = claim.Id,
             FromState = fromState,
             ToState = finalState,
-            Note = string.IsNullOrWhiteSpace(request.Note)
+            Note = string.IsNullOrWhiteSpace(command.Request.Note)
                 ? $"Reviewed: {approvedCount} approved, {rejectedCount} rejected."
-                : request.Note
+                : command.Request.Note
         });
 
         await _unitOfWork.SaveAsync(cancellationToken);

@@ -25,11 +25,10 @@ The user prefers reviewing concepts before large implementation passes.
 
 ## Current High-Priority Next Steps
 
-1. Update Application layer to replace old `FileUrl` with multiple attachments.
-2. Decide request/response shape for attachment creation.
-3. Decide whether direct company attachment uploads need their own commands/controllers now or later.
-4. Create EF migration after Application/Infrastructure shape is stable.
-5. Update frontend after API contracts are stable.
+1. Create/update EF migration for the current `Attachment` model.
+2. Decide whether direct company attachment uploads need their own commands/controllers now or later.
+3. Update frontend after API contracts are stable.
+4. Consider whether API response fields should be renamed from `Files` to `Attachments`.
 
 ## Attachment Design Reminder
 
@@ -54,7 +53,7 @@ An `ExpenseClaim` is not money movement by itself.
 When it is settled, one `Movement` of type `ApprovedExpense` is created.
 
 ```text
-ExpenseClaim 0..1 -> Movement
+ExpenseClaim 0..1 -> CustodyMovement
 Custody 1 -> many Movement
 ```
 

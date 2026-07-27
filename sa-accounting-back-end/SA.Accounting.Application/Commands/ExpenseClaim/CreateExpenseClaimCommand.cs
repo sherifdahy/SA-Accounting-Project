@@ -6,5 +6,4 @@ using System.Text;
 
 namespace SA.Accounting.Application.Commands.ExpenseClaim;
 
-public record CreateExpenseClaimCommand(int UserId,ExpenseClaimRequest Request)
-    : IRequest<Result<ExpenseClaimResponse>>;
+public record CreateExpenseClaimCommand(int UserId) : IRequest<Result<CreateExpenseClaimResponse>>;

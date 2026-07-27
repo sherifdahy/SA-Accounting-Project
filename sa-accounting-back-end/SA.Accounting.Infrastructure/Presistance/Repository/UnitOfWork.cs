@@ -1,16 +1,18 @@
-﻿using SA.Accounting.Infrastructure.Repository;
+using SA.Accounting.Core.Entities.Attachments;
 using SA.Accounting.Core.Entities.Companies;
+using SA.Accounting.Core.Entities.Custodies;
+using SA.Accounting.Core.Entities.ExpenseClaims;
+using SA.Accounting.Core.Entities.Identity;
 using SA.Accounting.Core.Entities.Platforms;
 using SA.Accounting.Core.Interfaces;
-using SA.Accounting.Core.Entities.Identity;
-using SA.Accounting.Core.Entities.ExpenseClaims;
-using SA.Accounting.Core.Entities.Custodies;
+using SA.Accounting.Infrastructure.Repository;
 
 namespace SA.Accounting.Infrastructure.Presistance.Repository;
 
 public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
+
     public UnitOfWork(ApplicationDbContext context)
     {
         _context = context;
@@ -26,7 +28,8 @@ public class UnitOfWork : IUnitOfWork
         Accounts = new Repository<Account>(_context);
         DeniedPermissions = new Repository<UserRolePermissionOverride>(_context);
         Custodies = new Repository<Custody>(_context);
-        Movements = new Repository<Movement>(_context);
+        CustodyMovements = new Repository<CustodyMovement>(_context);
+        Attachments = new Repository<Attachment>(_context);
     }
 
     public IRepository<Company> Companies { get; }
@@ -40,7 +43,8 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Account> Accounts { get; }
     public IRepository<UserRolePermissionOverride> DeniedPermissions { get; }
     public IRepository<Custody> Custodies { get; }
-    public IRepository<Movement> Movements { get; }
+    public IRepository<CustodyMovement> CustodyMovements { get; }
+    public IRepository<Attachment> Attachments { get; }
 
     public void Dispose()
     {
@@ -49,8 +53,9 @@ public class UnitOfWork : IUnitOfWork
 
     public int Save()
     {
-        return _context.SaveChanges(); 
+        return _context.SaveChanges();
     }
+
     public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
     {
         return await _context.SaveChangesAsync(cancellationToken);

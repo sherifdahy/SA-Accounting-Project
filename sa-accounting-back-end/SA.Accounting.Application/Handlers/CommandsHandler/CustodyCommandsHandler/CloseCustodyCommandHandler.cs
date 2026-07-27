@@ -16,12 +16,12 @@ public class CloseCustodyHandler(IUnitOfWork unitOfWork,ICustodyBalanceCalculato
 
     public async Task<Result> Handle(CloseCustodyCommand command,CancellationToken cancellationToken)
     {
-        var custody = await _unitOfWork.Custodies.FindAsync(x => x.Id == command.Id, [], cancellationToken);
+        var custody = await _unitOfWork.Custodies.GetByIdAsync(command.Id,cancellationToken);
 
         if (custody is null)
             return Result.Failure(CustodyErrors.NotFound);
 
-        if (!custody.IsActive)
+        if (custody.IsDisabled)
             return Result.Failure(CustodyErrors.NotActive);
 
         var balance = await _balanceCalculator.GetBalanceAsync(custody.Id, cancellationToken);
@@ -29,7 +29,7 @@ public class CloseCustodyHandler(IUnitOfWork unitOfWork,ICustodyBalanceCalculato
         if (balance != 0m)
             return Result.Failure(CustodyErrors.CannotCloseWithBalance);
 
-        custody.IsActive = false;
+        custody.IsDisabled = true;
         await _unitOfWork.SaveAsync(cancellationToken);
 
         return Result.Success();

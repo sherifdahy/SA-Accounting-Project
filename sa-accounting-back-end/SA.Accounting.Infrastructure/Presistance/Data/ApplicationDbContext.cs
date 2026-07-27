@@ -28,7 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser,Applicatio
     public virtual DbSet<UserRolePermissionOverride> DeniedPermissions { get; set; }
 
     public DbSet<Custody> Custodies { get; set; }
-    public DbSet<Movement> Movements { get; set; }
+    public DbSet<CustodyMovement> CustodyMovements { get; set; }
     public DbSet<ExpenseClaim> ExpenseClaims { get; set; }
     public DbSet<ExpenseClaimItem> ExpenseClaimItems { get; set; }
     public DbSet<ExpenseClaimHistory> ExpenseClaimHistories { get; set; }

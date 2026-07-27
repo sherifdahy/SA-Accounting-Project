@@ -10,9 +10,9 @@ public class Custody : AuditableEntity
 {
     public int Id { get; set; }
     public string Number { get; set; } = string.Empty;
-    public bool IsActive { get; set; } = true;
+    public bool IsDisabled { get; set; } = false;
     public string? Note { get; set; }
     public int UserId { get; set; }
     public virtual ApplicationUser User { get; set; } = default!;
-    public virtual ICollection<Movement> Movements { get; set; } = new HashSet<Movement>();
+    public virtual ICollection<CustodyMovement> Movements { get; set; } = new HashSet<CustodyMovement>();
 }

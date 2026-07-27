@@ -8,16 +8,19 @@ public class AttachmentConfig : IEntityTypeConfiguration<Attachment>
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.FileUrl)
-            .IsRequired()
-            .HasMaxLength(1000);
-
         builder.Property(x => x.FileName)
             .IsRequired()
-            .HasMaxLength(256);
+            .HasMaxLength(250);
+
+        builder.Property(x => x.StoredFileName)
+            .IsRequired()
+            .HasMaxLength(250);
 
         builder.Property(x => x.ContentType)
             .HasMaxLength(100);
+
+        builder.Property(x => x.FileExtension)
+            .HasMaxLength(10);
 
         builder.Property(x => x.Note)
             .HasMaxLength(1000);
@@ -39,12 +42,12 @@ public class AttachmentConfig : IEntityTypeConfiguration<Attachment>
         builder.ToTable(t =>
         {
             t.HasCheckConstraint(
-                "CK_Attachment_FileUrl_NotEmpty",
-                "LEN(LTRIM(RTRIM([FileUrl]))) > 0");
-
-            t.HasCheckConstraint(
                 "CK_Attachment_FileName_NotEmpty",
                 "LEN(LTRIM(RTRIM([FileName]))) > 0");
+
+            t.HasCheckConstraint(
+                "CK_Attachment_StoredFileName_NotEmpty",
+                "LEN(LTRIM(RTRIM([StoredFileName]))) > 0");
         });
     }
 }

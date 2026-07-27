@@ -12,35 +12,49 @@ public static class ExpenseClaimErrors
         "Expense claim was not found.",
         StatusCodes.Status404NotFound);
 
-    public static readonly Error UserNotFound = new(
-        "ExpenseClaim.UserNotFound",
-        "Specified user was not found.",
-        StatusCodes.Status404NotFound);
-
-    public static readonly Error CompanyNotFound = new(
-        "ExpenseClaim.CompanyNotFound",
-        "One or more companies were not found.",
+    public static readonly Error CannotUpdate = new(
+        "ExpenseClaim.CannotUpdate",
+        "Expense claim can not be Update dou to Expense Claim [Draft] or [ReturnedForEdit] state.",
         StatusCodes.Status400BadRequest);
 
-    public static readonly Error CategoryNotFound = new(
-        "ExpenseClaim.CategoryNotFound",
-        "One or more expense categories were not found.",
-        StatusCodes.Status400BadRequest);
-
-    public static readonly Error InactiveCategory = new(
-        "ExpenseClaim.InactiveCategory",
-        "One or more expense categories are inactive.",
-        StatusCodes.Status400BadRequest);
-
-    public static readonly Error AttachmentRequired = new(
-        "ExpenseClaim.AttachmentRequired",
-        "One or more items require an attachment based on the selected category.",
+    public static readonly Error CannotReview = new(
+        "ExpenseClaim.CannotReview",
+        "Expense claim can be reviewed only when it is in Submitted state.",
         StatusCodes.Status400BadRequest);
 
     public static readonly Error EmptyItems = new(
         "ExpenseClaim.EmptyItems",
         "Expense claim must have at least one item.",
         StatusCodes.Status400BadRequest);
+
+    public static readonly Error ReviewMustCoverAllItems = new(
+        "ExpenseClaim.ReviewMustCoverAllItems",
+        "All claim items must be reviewed (Approved or Rejected). No item can remain Pending.",
+        StatusCodes.Status400BadRequest);
+
+    public static readonly Error CannotSubmit = new(
+        "ExpenseClaim.CannotSubmit",
+        "Expense claim can be submitted only from Draft or ReturnedForEdit state.",
+        StatusCodes.Status400BadRequest);
+
+    public static readonly Error InvalidItemState = new(
+        "ExpenseClaim.InvalidItemState",
+        "Each item must be reviewed as Approved or Rejected.",
+        StatusCodes.Status400BadRequest);
+
+    public static readonly Error CannotReturnForEdit = new(
+        "ExpenseClaim.CannotReturnForEdit",
+        "Expense claim can be returned for edit only from Submitted state.",
+        StatusCodes.Status400BadRequest);
+
+    public static readonly Error CannotSettle = new(
+        "ExpenseClaim.CannotSettle",
+        "Expense claim can be settled only when it is Approved or PartiallyApproved.",
+        StatusCodes.Status400BadRequest);
+
+    ///////////////
+
+
 
     public static readonly Error NotEditable = new(
         "ExpenseClaim.NotEditable",
@@ -53,40 +67,11 @@ public static class ExpenseClaimErrors
         StatusCodes.Status400BadRequest);
 
 
-    public static readonly Error CannotSubmit = new(
-        "ExpenseClaim.CannotSubmit",
-        "Expense claim can be submitted only from Draft or ReturnedForEdit state.",
-        StatusCodes.Status400BadRequest);
-
-    public static readonly Error CannotReview = new(
-    "ExpenseClaim.CannotReview",
-    "Expense claim can be reviewed only when it is in Submitted state.",
-    StatusCodes.Status400BadRequest);
-
-    public static readonly Error ReviewMustCoverAllItems = new(
-        "ExpenseClaim.ReviewMustCoverAllItems",
-        "All claim items must be reviewed (Approved or Rejected). No item can remain Pending.",
-        StatusCodes.Status400BadRequest);
-
-    public static readonly Error InvalidItemState = new(
-        "ExpenseClaim.InvalidItemState",
-        "Each item must be reviewed as Approved or Rejected.",
-        StatusCodes.Status400BadRequest);
-
     public static readonly Error RejectionReasonRequired = new(
         "ExpenseClaim.RejectionReasonRequired",
         "Rejection reason is required for rejected items.",
         StatusCodes.Status400BadRequest);
 
-    public static readonly Error DuplicateItemReview = new(
-        "ExpenseClaim.DuplicateItemReview",
-        "Each item can only be reviewed once in the same request.",
-        StatusCodes.Status400BadRequest);
-
-    public static readonly Error CannotReturnForEdit = new(
-    "ExpenseClaim.CannotReturnForEdit",
-    "Expense claim can be returned for edit only from Submitted state.",
-    StatusCodes.Status400BadRequest);
 
     public static readonly Error CannotCancel = new(
         "ExpenseClaim.CannotCancel",
@@ -98,11 +83,6 @@ public static class ExpenseClaimErrors
         "Reason is required.",
         StatusCodes.Status400BadRequest);
 
-    public static readonly Error CannotSettle = new(
-    "ExpenseClaim.CannotSettle",
-    "Expense claim can be settled only when it is Approved or PartiallyApproved.",
-    StatusCodes.Status400BadRequest);
-
     public static readonly Error AlreadySettled = new(
         "ExpenseClaim.AlreadySettled",
         "Expense claim has already been settled.",
@@ -111,11 +91,6 @@ public static class ExpenseClaimErrors
     public static readonly Error NoApprovedItems = new(
         "ExpenseClaim.NoApprovedItems",
         "Cannot settle a claim with no approved items.",
-        StatusCodes.Status400BadRequest);
-
-    public static readonly Error NoActiveCustody = new(
-        "ExpenseClaim.NoActiveCustody",
-        "User has no active custody to settle this claim against.",
         StatusCodes.Status400BadRequest);
 
     public static readonly Error InsufficientCustodyBalance = new(

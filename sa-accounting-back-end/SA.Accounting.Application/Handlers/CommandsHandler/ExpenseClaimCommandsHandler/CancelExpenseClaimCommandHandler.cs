@@ -21,12 +21,8 @@ public class CancelExpenseClaimHandler(IUnitOfWork unitOfWork) : IRequestHandler
         if (claim is null)
             return Result.Failure(ExpenseClaimErrors.NotFound);
 
-        // ممنوع cancel لـ Settled أو Cancelled
-        if (claim.CurrentState == ExpenseClaimState.Settled ||
-            claim.CurrentState == ExpenseClaimState.Cancelled)
-        {
+        if (claim.CurrentState == ExpenseClaimState.Settled || claim.CurrentState == ExpenseClaimState.Cancelled)
             return Result.Failure(ExpenseClaimErrors.CannotCancel);
-        }
 
         var fromState = claim.CurrentState;
         claim.CurrentState = ExpenseClaimState.Cancelled;

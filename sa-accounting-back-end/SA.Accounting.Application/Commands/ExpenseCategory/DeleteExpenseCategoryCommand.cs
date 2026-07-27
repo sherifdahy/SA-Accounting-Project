@@ -4,6 +4,4 @@ using System.Text;
 
 namespace SA.Accounting.Application.Commands.ExpenseCategory;
 
-public record DeleteExpenseCategoryCommand(
-int Id
-) : IRequest<Result>;
+public record DeleteExpenseCategoryCommand(int Id) : IRequest<Result>;

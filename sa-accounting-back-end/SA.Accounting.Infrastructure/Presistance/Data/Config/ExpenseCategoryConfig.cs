@@ -15,20 +15,15 @@ public class ExpenseCategoryConfig : IEntityTypeConfiguration<ExpenseCategory>
             .IsRequired()
             .HasMaxLength(200);
 
+        builder.HasIndex(x => x.Name)
+            .IsUnique();
+
         builder.Property(x => x.RequiresAttachment)
             .HasDefaultValue(false);
 
         builder.Property(x => x.IsDisabled)
             .HasDefaultValue(false);
 
-        builder.HasIndex(x => x.Name)
-            .IsUnique();
 
-        builder.ToTable(t =>
-        {
-            t.HasCheckConstraint(
-                "CK_ExpenseCategory_Name_NotEmpty",
-                "LEN(LTRIM(RTRIM([Name]))) > 0");
-        });
     }
 }

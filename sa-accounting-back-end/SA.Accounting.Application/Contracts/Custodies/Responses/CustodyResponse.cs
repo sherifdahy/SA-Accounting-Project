@@ -9,7 +9,7 @@ public record CustodyResponse(
     string Number,
     int UserId,
     string UserFullName,
-    bool IsActive,
+    bool IsDisabled,
     decimal Balance,
     DateTime CreatedAt
 );

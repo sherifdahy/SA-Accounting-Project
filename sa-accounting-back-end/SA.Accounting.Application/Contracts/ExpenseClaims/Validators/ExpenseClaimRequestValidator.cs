@@ -1,4 +1,5 @@
-﻿using SA.Accounting.Application.Contracts.ExpenseClaims.Requests;
+﻿using SA.Accounting.Application.Contracts.ExpenseClaimItems.Validators;
+using SA.Accounting.Application.Contracts.ExpenseClaims.Requests;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,6 @@ public class ExpenseClaimRequestValidator : AbstractValidator<ExpenseClaimReques
 
         RuleFor(x => x.Note)
             .MaximumLength(1000);
-
 
         RuleFor(x => x.Items)
             .NotEmpty().WithMessage("At least one item is required.");

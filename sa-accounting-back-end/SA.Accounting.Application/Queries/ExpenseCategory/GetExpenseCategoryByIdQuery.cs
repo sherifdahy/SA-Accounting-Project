@@ -2,5 +2,4 @@
 
 namespace SA.Accounting.Application.Queries.ExpenseCategory;
 
-public record GetExpenseCategoryByIdQuery(int Id)
-    : IRequest<Result<ExpenseCategoryResponse>>;
+public record GetExpenseCategoryByIdQuery(int Id): IRequest<Result<ExpenseCategoryResponse>>;

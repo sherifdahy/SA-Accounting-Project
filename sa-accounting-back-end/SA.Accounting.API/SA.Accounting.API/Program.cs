@@ -48,4 +48,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.HandleExeption();
+app.MapStaticAssets();
 app.Run();

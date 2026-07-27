@@ -10,7 +10,7 @@ public class CustodyBalanceCalculator(IUnitOfWork unitOfWork) : ICustodyBalanceC
 
     public async Task<CustodyBalance> CalculateAsync(int custodyId,CancellationToken cancellationToken = default)
     {
-        var sums = (await _unitOfWork.Movements
+        var sums = (await _unitOfWork.CustodyMovements
             .FindAllAsync(x => x.CustodyId == custodyId, [],cancellationToken))
             .GroupBy(x => x.Type)
             .Select(g => new
@@ -41,7 +41,7 @@ public class CustodyBalanceCalculator(IUnitOfWork unitOfWork) : ICustodyBalanceC
     }
     public async Task<decimal> GetBalanceAsync(int custodyId,CancellationToken cancellationToken = default)
     {
-        var result = (await _unitOfWork.Movements
+        var result = (await _unitOfWork.CustodyMovements
             .FindAllAsync(x => x.CustodyId == custodyId, [],cancellationToken))
             .GroupBy(x => 1)
             .Select(g => new

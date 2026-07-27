@@ -9,11 +9,9 @@ public enum ExpenseClaimState
 {
     Draft = 1,             // الموظف لسه بيكتب
     Submitted = 2,         // الموظف بعت للمراجعة
-    UnderReview = 3,       // المحاسب بيراجع
-    Approved = 4,          // كل البنود اتوافقت
-    PartiallyApproved = 5, // بعض البنود اتوافقت وبعضها اترفض
-    Rejected = 6,          // كله اترفض
-    Settled = 7,           // اتخصم من العهدة
-    Cancelled = 8,         // اتلغى
-    ReturnedForEdit = 9    // رجع للموظف يعدل
+    Approved = 3,          // كل البنود اتوافقت
+    Rejected = 4,          // كله اترفض
+    Settled = 5,           // اتخصم من العهدة
+    Cancelled = 6,         // اتلغى
+    ReturnedForEdit = 7    // رجع للموظف يعدل
 }

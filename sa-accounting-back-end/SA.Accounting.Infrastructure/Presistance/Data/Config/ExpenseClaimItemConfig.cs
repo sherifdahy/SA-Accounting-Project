@@ -1,8 +1,5 @@
-﻿using SA.Accounting.Core.Entities.ExpenseClaims;
+using SA.Accounting.Core.Entities.ExpenseClaims;
 using SA.Accounting.Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SA.Accounting.Infrastructure.Presistance.Data.Config;
 
@@ -41,20 +38,19 @@ public class ExpenseClaimItemConfig : IEntityTypeConfiguration<ExpenseClaimItem>
 
             t.HasCheckConstraint(
                 "CK_ExpenseClaimItem_State_Valid",
-                "[State] IN (1, 2, 3)");
+                $"[{nameof(ExpenseClaimItem.State)}] IN ({string.Join(',', Enum.GetValues<ExpenseClaimItemState>().Select(x => (int)x))})");
 
             t.HasCheckConstraint(
                 "CK_ExpenseClaimItem_RejectionReason_Required_WhenRejected",
-                @"(
-                [State] <> 3
-                OR
+                $@"
                 (
-                    [State] = 3 
-                    AND [RejectionReason] IS NOT NULL 
-                    AND LEN(LTRIM(RTRIM([RejectionReason]))) > 0
-                )
-            )");
+                    [State] <> {(int)ExpenseClaimItemState.Rejected}
+                    OR
+                    (
+                        [RejectionReason] IS NOT NULL
+                        AND LEN(LTRIM(RTRIM([RejectionReason]))) > 0
+                    )
+                )");
         });
-
     }
 }

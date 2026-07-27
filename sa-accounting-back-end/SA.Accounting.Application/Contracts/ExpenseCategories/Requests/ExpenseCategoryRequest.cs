@@ -8,5 +8,5 @@ public class ExpenseCategoryRequest
 {
     public string Name { get; set; } = string.Empty;
     public bool RequiresAttachment { get; set; }
-    public bool IsDisabled { get; set; } = true;
+    public bool IsDisabled { get; set; }
 }

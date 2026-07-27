@@ -4,10 +4,6 @@ using SA.Accounting.Application.Contracts.ExpenseClaims.Responses;
 using SA.Accounting.Application.Errors;
 using SA.Accounting.Application.Queries.ExpenseClaim;
 using SA.Accounting.Core.Entities.Interfaces;
-using SA.Accounting.Infrastructure.Presistance.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SA.Accounting.Application.Handlers.QueriesHandler.ExpenseClaimQueriesHandler;
 

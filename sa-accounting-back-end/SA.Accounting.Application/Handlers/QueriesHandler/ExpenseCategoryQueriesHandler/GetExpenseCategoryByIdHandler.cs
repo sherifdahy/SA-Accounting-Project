@@ -16,7 +16,7 @@ public class GetExpenseCategoryByIdHandler(IUnitOfWork unitOfWork) : IRequestHan
     public async Task<Result<ExpenseCategoryResponse>> Handle(GetExpenseCategoryByIdQuery query,CancellationToken cancellationToken)
     {
         var entity = await _unitOfWork.ExpenseCategories
-            .FindAsync(x => x.Id == query.Id, [],cancellationToken);
+            .GetByIdAsync(query.Id,cancellationToken);
 
         if (entity is null)
             return Result.Failure<ExpenseCategoryResponse>(ExpenseCategoryErrors.NotFound);

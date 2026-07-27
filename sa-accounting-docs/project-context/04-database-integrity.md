@@ -27,11 +27,13 @@ This is intentional. Avoid accidental deletion chains for company, expense, atta
 
 Current intended rules:
 
-- `Attachment.FileUrl` is required.
-- `Attachment.FileUrl` max length: `1000`.
+- `Attachment.Id` is a `Guid`.
 - `Attachment.FileName` is required.
-- `Attachment.FileName` max length: `256`.
+- `Attachment.FileName` max length: `250`.
+- `Attachment.StoredFileName` is required.
+- `Attachment.StoredFileName` max length: `250`.
 - `Attachment.ContentType` max length: `100`.
+- `Attachment.FileExtension` max length: `10`.
 - `Attachment.Note` max length: `1000`.
 - `Attachment.CompanyId` is required.
 - `Attachment.ExpenseClaimItemId` is optional.
@@ -41,8 +43,8 @@ Current intended rules:
 
 Required constraints:
 
-- `FileUrl` should not be empty or whitespace.
 - `FileName` should not be empty or whitespace.
+- `StoredFileName` should not be empty or whitespace.
 
 ## Expense Claim Item Integrity
 
@@ -87,7 +89,7 @@ Business meaning:
 
 Configuration should express:
 
-- `ExpenseClaim 0..1 -> 1 Movement` through `SettlementMovement`.
+- `ExpenseClaim 0..1 -> 1 CustodyMovement` through `SettlementMovement`.
 - `Movement.ExpenseClaimId` is nullable.
 - `ApprovedExpense` movements require `ExpenseClaimId`.
 - Other movement types must not have `ExpenseClaimId`.

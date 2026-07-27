@@ -13,6 +13,7 @@ public static class ServicesRegistrations
     public static void AddServicesRegistrations(this IServiceCollection services,IConfiguration configuration)
     {
         services.AddScoped<IEmailSender, EmailServices>();
+        services.AddScoped<IFileService, FileService>();
 
         services.AddScoped<ICustodyNumberGenerator, CustodyNumberGenerator>();
         services.AddScoped<ICustodyBalanceCalculator, CustodyBalanceCalculator>();

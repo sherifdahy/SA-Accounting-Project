@@ -86,7 +86,7 @@ Important relationships:
 - `ExpenseClaim many -> 1 User`
 - `ExpenseClaim 1 -> many ExpenseClaimItem`
 - `ExpenseClaim 1 -> many ExpenseClaimHistory`
-- `ExpenseClaim 0..1 -> 1 Movement` through `SettlementMovement`
+- `ExpenseClaim 0..1 -> 1 CustodyMovement` through `SettlementMovement`
 
 `SettlementMovement` means the financial movement created when the claim is settled against custody.
 
@@ -143,9 +143,10 @@ Attachments are company-owned first.
 Important fields:
 
 - `Id`
-- `FileUrl`
 - `FileName`
+- `StoredFileName`
 - `ContentType`
+- `FileExtension`
 - `Note`
 - `CompanyId`
 - `ExpenseClaimItemId`
@@ -180,6 +181,8 @@ Business rule:
 - A user should have at most one active custody.
 
 ### Movement
+
+The code currently names this entity `CustodyMovement`.
 
 Represents a financial movement on a custody.
 

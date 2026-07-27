@@ -39,13 +39,13 @@ The old `ExpenseClaim.Movements` collection was misleading.
 The intended relationship is:
 
 ```text
-ExpenseClaim 0..1 -> 1 Movement
+ExpenseClaim 0..1 -> 1 CustodyMovement
 ```
 
 In Core this is represented by:
 
 ```csharp
-public virtual Movement? SettlementMovement { get; set; }
+public virtual CustodyMovement? SettlementMovement { get; set; }
 ```
 
 The custody remains:
@@ -86,16 +86,13 @@ Docs:
 
 ## Known Incomplete Work
 
-Application layer still uses old `FileUrl` request/response shape in expense claim item flows.
+The GitHub update introduced upload endpoints and a file service. We kept the upload capability but aligned the domain to our `Attachment` model instead of `UploadedFile`.
 
-Expected affected areas:
+Current rule:
 
-- `ExpenseClaimItemRequest`
-- `ExpenseClaimItemResponse`
-- `ExpenseClaimItemRequestValidator`
-- `CreateExpenseClaimCommandHandler`
-- `UpdateExpenseClaimCommandHandler`
-- query includes and mappings for attachments
+- API/application request fields may still be called `Files` because users upload files.
+- Domain and persistence should use `Attachment` and `Attachments`.
+- Do not reintroduce `UploadedFile` as a parallel domain entity.
 
 Migrations are not created yet for the attachment/domain changes.
 

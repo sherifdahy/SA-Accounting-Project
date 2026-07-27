@@ -6,10 +6,11 @@ namespace SA.Accounting.Core.Entities.Attachments;
 
 public class Attachment : AuditableEntity
 {
-    public int Id { get; set; }
-    public string FileUrl { get; set; } = string.Empty;
+    public Guid Id { get; set; }
     public string FileName { get; set; } = string.Empty;
+    public string StoredFileName { get; set; } = string.Empty;
     public string ContentType { get; set; } = string.Empty;
+    public string FileExtension { get; set; } = string.Empty;
     public string? Note { get; set; }
 
     public int CompanyId { get; set; }

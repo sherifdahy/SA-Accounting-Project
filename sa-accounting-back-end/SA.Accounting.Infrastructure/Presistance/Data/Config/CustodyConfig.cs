@@ -15,19 +15,18 @@ public class CustodyConfig : IEntityTypeConfiguration<Custody>
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(x => x.Note)
-            .HasMaxLength(500);
-
-        builder.Property(x => x.IsActive)
-            .HasDefaultValue(true);
-
         builder.HasIndex(x => x.Number)
             .IsUnique();
 
+        builder.Property(x => x.Note)
+            .HasMaxLength(500);
+
         builder.HasIndex(x => x.UserId)
             .IsUnique()
-            .HasFilter("[IsActive] = 1");
+            .HasFilter("[IsDisabled] = 0");
 
+
+        // auditable entity config
         builder.HasOne(x => x.CreatedBy)
             .WithMany()
             .HasForeignKey(x => x.CreatedById)

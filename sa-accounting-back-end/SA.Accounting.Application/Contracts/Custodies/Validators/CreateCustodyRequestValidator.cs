@@ -9,9 +9,6 @@ public class CreateCustodyRequestValidator : AbstractValidator<CreateCustodyRequ
 {
     public CreateCustodyRequestValidator()
     {
-        RuleFor(x => x.UserId)
-            .GreaterThan(0);
-
         RuleFor(x => x.Note)
             .MaximumLength(500);
     }

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\SA.Accounting.Services\SA.Accounting.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\Files\Requests\" />
+  </ItemGroup>
+
 </Project>

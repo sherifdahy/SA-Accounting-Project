@@ -1,10 +1,6 @@
 ﻿using Mapster;
 using SA.Accounting.Application.Errors;
 using SA.Accounting.Core.Entities.Interfaces;
-using SA.Accounting.Infrastructure.Presistance.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SA.Accounting.Application.Handlers.CommandsHandler.ExpenseCategoryCommandHandler;
 
@@ -14,7 +10,7 @@ public class UpdateExpenseCategoryCommandHandler(IUnitOfWork unitOfWork) : IRequ
     public async Task<Result> Handle(UpdateExpenseCategoryCommand command,CancellationToken cancellationToken)
     {
         var entity = await _unitOfWork.ExpenseCategories
-            .FindAsync(x => x.Id == command.Id, [], cancellationToken);
+            .GetByIdAsync(command.Id);
 
         if (entity is null)
             return Result.Failure(ExpenseCategoryErrors.NotFound);

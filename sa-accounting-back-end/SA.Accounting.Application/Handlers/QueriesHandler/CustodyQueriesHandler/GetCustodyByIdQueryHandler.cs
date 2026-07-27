@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mapster;
+using Microsoft.EntityFrameworkCore;
 using SA.Accounting.Application.Contracts.Custodies.Responses;
 using SA.Accounting.Application.Errors;
 using SA.Accounting.Application.Queries.Custody;
@@ -7,7 +8,7 @@ using SA.Accounting.Services.Services;
 
 namespace SA.Accounting.Application.Handlers.QueriesHandler.CustodyQueriesHandler;
 
-public class GetCustodyByIdHandler(IUnitOfWork unitOfWork,ICustodyBalanceCalculator custodyBalanceCalculator) : IRequestHandler<GetCustodyByIdQuery, Result<CustodyDetailsResponse>>
+public class GetCustodyByIdQueryHandler(IUnitOfWork unitOfWork,ICustodyBalanceCalculator custodyBalanceCalculator) : IRequestHandler<GetCustodyByIdQuery, Result<CustodyDetailsResponse>>
 {
     private readonly ICustodyBalanceCalculator _balanceCalculator = custodyBalanceCalculator;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -22,20 +23,7 @@ public class GetCustodyByIdHandler(IUnitOfWork unitOfWork,ICustodyBalanceCalcula
 
         var balanceInfo = await _balanceCalculator.CalculateAsync(custody.Id, cancellationToken);
 
-        var response = new CustodyDetailsResponse(
-            custody.Id,
-            custody.Number,
-            custody.UserId,
-            custody.User.Name,
-            custody.IsActive,
-            balanceInfo.Balance,
-            balanceInfo.TotalDeposits,
-            balanceInfo.TotalApprovedExpenses,
-            balanceInfo.TotalReturns,
-            balanceInfo.TotalAdjustmentsIn,
-            balanceInfo.TotalAdjustmentsOut,
-            custody.Note,
-            custody.CreatedAt);
+        var response = custody.Adapt<CustodyDetailsResponse>();
 
         return Result.Success(response);
     }
