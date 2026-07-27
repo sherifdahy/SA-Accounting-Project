@@ -16,5 +16,5 @@ public class ExpenseClaim : AuditableEntity
     public virtual ApplicationUser User { get; set; } = default!;
     public virtual ICollection<ExpenseClaimItem> Items { get; set; } = new HashSet<ExpenseClaimItem>();
     public virtual ICollection<ExpenseClaimHistory> Histories { get; set; } = new HashSet<ExpenseClaimHistory>();
-    public virtual ICollection<Movement> Movements { get; set; } = new HashSet<Movement>();
+    public virtual Movement? SettlementMovement { get; set; }
 }

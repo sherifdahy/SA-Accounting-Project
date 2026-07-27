@@ -16,9 +16,6 @@ public class ExpenseClaimItemConfig : IEntityTypeConfiguration<ExpenseClaimItem>
             .IsRequired()
             .HasMaxLength(1000);
 
-        builder.Property(x => x.FileUrl)
-            .HasMaxLength(1000);
-
         builder.Property(x => x.Amount)
             .HasPrecision(18, 2)
             .IsRequired();

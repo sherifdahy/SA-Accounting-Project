@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
+using SA.Accounting.Core.Entities.Attachments;
 using SA.Accounting.Core.Entities.Base;
 using SA.Accounting.Core.Entities.Companies;
 using SA.Accounting.Core.Entities.Custodies;
@@ -12,6 +13,7 @@ namespace SA.Accounting.Infrastructure.Presistance.Data;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,int>
 {
     private readonly IHttpContextAccessor _httpContext;
+
     public ApplicationDbContext(IHttpContextAccessor context, DbContextOptions<ApplicationDbContext> options) : base(options)
     {
         _httpContext = context;
@@ -31,8 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser,Applicatio
     public DbSet<ExpenseClaimItem> ExpenseClaimItems { get; set; }
     public DbSet<ExpenseClaimHistory> ExpenseClaimHistories { get; set; }
     public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
-
-
+    public DbSet<Attachment> Attachments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,7 +65,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser,Applicatio
                 {
                     entityEntry.Property(x => x.UpdatedById).CurrentValue = currentUserId;
                     entityEntry.Property(x => x.UpdatedAt).CurrentValue = DateTime.UtcNow;
-
                 }
             }
         }

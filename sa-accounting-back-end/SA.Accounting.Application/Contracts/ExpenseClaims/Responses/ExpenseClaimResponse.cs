@@ -18,6 +18,6 @@ public record ExpenseClaimResponse(
     decimal RejectedAmount,
     decimal PendingAmount,
     IReadOnlyList<ExpenseClaimItemResponse> Items,
-    IReadOnlyList<ExpenseClaimHistoryResponse> Histories,
+    //IReadOnlyList<ExpenseClaimHistoryResponse> Histories,
     DateTime CreatedAt
 );

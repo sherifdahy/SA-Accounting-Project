@@ -24,6 +24,11 @@ public class MovementConfig : IEntityTypeConfiguration<Movement>
         builder.Property(x => x.Note)
             .HasMaxLength(500);
 
+        builder.HasOne(x => x.ExpenseClaim)
+            .WithOne(x => x.SettlementMovement)
+            .HasForeignKey<Movement>(x => x.ExpenseClaimId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasIndex(x => new { x.ExpenseClaimId, x.Type })
             .IsUnique()
             .HasFilter("[ExpenseClaimId] IS NOT NULL AND [Type] = 2");
