@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SA.Accounting.Application.Abstractions.interfaces;
 using SA.Accounting.Core.Entities.Identity;
 using SA.Accounting.Infrastructure.Presistance.Data;
 using SA.Accounting.Infrastructure.Presistance.Repository;
+using SA.Accounting.Infrastructure.Services;
 
 namespace SA.Accounting.Infrastructure;
 public static class InfrastructureRegistrations
@@ -58,5 +60,7 @@ public static class InfrastructureRegistrations
     private static void AddServicesConfig(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IIdentityService, IdentityService>();
     }
 }
+

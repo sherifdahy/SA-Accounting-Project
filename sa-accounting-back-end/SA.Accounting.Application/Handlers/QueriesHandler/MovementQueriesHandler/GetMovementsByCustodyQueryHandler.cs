@@ -22,7 +22,7 @@ public class GetMovementsByCustodyHandler(IUnitOfWork unitOfWork) : IRequestHand
             return Result.Failure<IReadOnlyList<CustodyMovementResponse>>(CustodyErrors.NotFound);
 
         var movements = await _unitOfWork.CustodyMovements
-            .FindAllAsync(x => x.CustodyId == query.CustodyId, [], cancellationToken);
+            .FindAllAsync(x => x.CustodyId == query.CustodyId, cancellationToken);
 
         return Result.Success<IReadOnlyList<CustodyMovementResponse>>(movements.Adapt<List<CustodyMovementResponse>>());
     }

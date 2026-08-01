@@ -1,7 +1,5 @@
-﻿using SA.Accounting.Core.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.AspNetCore.Identity;
+using SA.Accounting.Core.Entities.Identity;
 
 namespace SA.Accounting.Core.Interfaces;
 

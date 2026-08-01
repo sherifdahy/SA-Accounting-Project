@@ -1,4 +1,4 @@
-﻿using SA.Accounting.Core.Entities.Identity;
+using SA.Accounting.Core.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,3 +20,4 @@ namespace SA.Accounting.Core.Entities.Base
         public ApplicationUser? UpdatedBy { get; set; }
     }
 }
+

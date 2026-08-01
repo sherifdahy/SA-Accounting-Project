@@ -27,3 +27,4 @@ public interface IUnitOfWork : IDisposable
     int Save();
     Task<int> SaveAsync(CancellationToken cancellationToken = default);
 }
+

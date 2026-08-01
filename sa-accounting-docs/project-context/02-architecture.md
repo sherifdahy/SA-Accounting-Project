@@ -54,6 +54,25 @@ Contains commands, queries, handlers, validators, request/response contracts, ma
 
 This layer may temporarily lag behind Core when domain decisions are being made.
 
+#### Validation Ownership
+
+Validation for an application use case belongs to its command or query, not to the
+transport request DTO.
+
+Rules:
+
+- API request models are transport contracts used for model binding and mapping.
+- Application validators target `Command` or `Query` types.
+- MediatR validation behavior runs validators before the handler executes.
+- A handler must not depend on an API request validator having run first.
+- Request-specific validation is allowed only when it is strictly about the HTTP
+  transport and is not an application rule.
+
+For example, login validation is owned by `LoginCommandValidator`. The API may
+receive a `LoginRequest`, map it to `LoginCommand`, and send the command through
+MediatR. This keeps the use case valid even when it is invoked outside an HTTP
+controller.
+
 ### Infrastructure
 
 Path:
@@ -89,6 +108,43 @@ Contains domain-supporting services such as number generation, auth support, ema
 - Unit of Work
 - EF Core fluent configuration
 - ASP.NET Identity
+- Soft delete for business records that should not disappear from history
+
+## Data Access Pattern
+
+Application handlers should access persistence through `IUnitOfWork` and repositories, not directly through `ApplicationDbContext`.
+
+Current pattern:
+
+- `IUnitOfWork` lives in `SA.Accounting.Core`.
+- `UnitOfWork` implementation lives in `SA.Accounting.Infrastructure`.
+- Generic repositories expose common data operations.
+- Specialized repositories can be added only when the generic repository is not expressive enough.
+
+Use this pattern consistently for commands and queries unless there is a clear project-level decision to do otherwise.
+
+## Soft Delete Policy
+
+The project uses soft delete for business entities where historical data matters.
+
+Examples already using soft-delete style flags include:
+
+- `Company.IsDeleted`
+- `Account.IsDeleted`
+- `Owner.IsDeleted`
+- `Platform.IsDeleted`
+- `Selector.IsDeleted`
+
+Some entities use status flags instead of `IsDeleted`, such as disabled categories or disabled custodies.
+
+Soft-deleted records should normally be hidden from regular queries, but kept in the database for history, integrity, and auditability.
+
+When adding new business entities, decide explicitly whether they need:
+
+- `IsDeleted`
+- `IsDisabled`
+- another status field
+- no soft-delete behavior
 
 ## Architecture Guideline
 
@@ -96,5 +152,6 @@ When changing a feature:
 
 1. Start with the domain model in `Core`.
 2. Reflect database constraints in `Infrastructure`.
-3. Update `Application` requests, handlers, validators, and mapping.
+3. Update `Application` commands/queries, handlers, validators, and mapping. Keep
+   use-case validation on commands/queries rather than transport request DTOs.
 4. Update API/frontend only after the model is stable.

@@ -14,7 +14,7 @@ public class SubmitExpenseClaimHandler(IUnitOfWork unitOfWork) : IRequestHandler
     {
         // check expense claim is exist
         var claim = await _unitOfWork.ExpenseClaims
-            .FindAsync(x => x.Id == command.Id, [x=>x.Include(d=>d.Items)],cancellationToken);
+            .FindAsync(x => x.Id == command.Id, cancellationToken, x => x.Items);
 
         if (claim is null)
             return Result.Failure(ExpenseClaimErrors.NotFound);

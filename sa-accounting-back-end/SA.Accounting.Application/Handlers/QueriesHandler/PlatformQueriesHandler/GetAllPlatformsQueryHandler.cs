@@ -19,7 +19,7 @@ public class GetAllPlatformsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
     {
         Expression<Func<Platform, bool>> query = x => (request.IncludeDisabled == true || x.IsDeleted == false);
 
-        var platforms = await _unitOfWork.Platforms.FindAllAsync(query, [],cancellationToken);
+        var platforms = await _unitOfWork.Platforms.FindAllAsync(query, cancellationToken);
 
         return Result.Success(platforms.Adapt<List<PlatformResponse>>());
     }

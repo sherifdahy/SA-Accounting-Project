@@ -1,5 +1,4 @@
 ﻿using SA.Accounting.Core.Entities.Base;
-using SA.Accounting.Core.Entities.Identity;
 using SA.Accounting.Core.Enums;
 
 namespace SA.Accounting.Core.Entities.ExpenseClaims;

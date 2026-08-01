@@ -16,11 +16,12 @@ public class GetExpenseClaimItemQueryHandler(IUnitOfWork unitOfWork) : IRequestH
 
     public async Task<Result<ExpenseClaimItemResponse>> Handle(GetExpenseClaimItemQuery query, CancellationToken cancellationToken)
     {
-        var claimItem = await _unitOfWork.ExpenseClaimItems.FindAsync(x => x.Id == query.Id, [
-                x=>x.Include(x=>x.Company),
-                x=>x.Include(x=>x.ExpenseCategory),
-                x=>x.Include(x=>x.Attachments)
-            ], cancellationToken);
+        var claimItem = await _unitOfWork.ExpenseClaimItems.FindAsync(
+            x => x.Id == query.Id,
+            cancellationToken,
+            x => x.Company,
+            x => x.ExpenseCategory,
+            x => x.Attachments);
 
         if (claimItem is null)
             return Result.Failure<ExpenseClaimItemResponse>(ExpenseClaimItemErrors.NotFound);

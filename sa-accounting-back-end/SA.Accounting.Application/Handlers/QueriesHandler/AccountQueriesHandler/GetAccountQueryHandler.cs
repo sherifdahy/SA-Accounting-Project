@@ -13,7 +13,10 @@ public class GetAccountQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<Ge
 
     public async Task<Result<AccountResponse>> Handle(GetAccountQuery request, CancellationToken cancellationToken)
     {
-        var account = await _unitOfWork.Accounts.FindAsync(x=> x.PlatformId == request.PlatformId && x.CompanyId == request.CompanyId,[x=>x.Include(x=>x.Platform)],cancellationToken);
+        var account = await _unitOfWork.Accounts.FindAsync(
+            x => x.PlatformId == request.PlatformId && x.CompanyId == request.CompanyId,
+            cancellationToken,
+            x => x.Platform);
         
         if (account == null)
             return Result.Failure<AccountResponse>(AccountErrors.NotFound);

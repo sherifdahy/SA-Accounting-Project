@@ -7,15 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
   <FrameworkReference Include="Microsoft.AspNetCore.App"></FrameworkReference>
   <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
 		</PackageReference>
-	  <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.1" />
+	  	  <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.1" />
+	  
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SA.Accounting.Application\SA.Accounting.Application.csproj" />
     <ProjectReference Include="..\SA.Accounting.Core\SA.Accounting.Core.csproj" />
   </ItemGroup>
 

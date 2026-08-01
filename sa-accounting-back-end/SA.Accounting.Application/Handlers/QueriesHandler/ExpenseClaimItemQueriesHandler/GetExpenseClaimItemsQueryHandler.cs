@@ -18,11 +18,12 @@ public class GetExpenseClaimItemsQueryHandler(IUnitOfWork unitOfWork) : IRequest
         if (claim is null)
             return Result.Failure<IReadOnlyList<ExpenseClaimItemResponse>>(ExpenseClaimItemErrors.NotFound);
         
-        var claimItems = await _unitOfWork.ExpenseClaimItems.FindAllAsync(x => x.ExpenseClaimId == query.ClaimId, [
-                x=>x.Include(x=>x.Company),
-                x=>x.Include(x=>x.ExpenseCategory),
-                x=>x.Include(x=>x.Attachments)
-            ], cancellationToken);
+        var claimItems = await _unitOfWork.ExpenseClaimItems.FindAllAsync(
+            x => x.ExpenseClaimId == query.ClaimId,
+            cancellationToken,
+            x => x.Company,
+            x => x.ExpenseCategory,
+            x => x.Attachments);
 
         var response = claimItems.Adapt<IReadOnlyList<ExpenseClaimItemResponse>>();
 

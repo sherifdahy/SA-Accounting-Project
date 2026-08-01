@@ -46,7 +46,7 @@ public class GetUserPermissionOverridesQueryHandler(
         // 2. DENIED (Overrides)
         // =========================
         var overrides = await _unitOfWork.DeniedPermissions
-            .FindAllAsync(x => x.UserId == request.UserId, [], cancellationToken);
+            .FindAllAsync(x => x.UserId == request.UserId, cancellationToken);
 
         var denied = overrides
             .Select(x => x.Value)

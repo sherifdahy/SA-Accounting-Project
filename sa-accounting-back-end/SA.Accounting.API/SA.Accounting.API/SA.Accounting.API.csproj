@@ -9,7 +9,8 @@
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Http" Version="8.1.1" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.10" />
+		<PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
 		<PackageReference Include="MimeKit" Version="4.16.0" />
 		
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -21,6 +22,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\SA.Accounting.Application\SA.Accounting.Application.csproj" />
+		<ProjectReference Include="..\..\SA.Accounting.Infrastructure\SA.Accounting.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

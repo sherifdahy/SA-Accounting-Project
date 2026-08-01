@@ -16,7 +16,10 @@ public class UpdatePlatformCommandHandler(IUnitOfWork unitOfWork) : IRequestHand
 
     public async Task<Result> Handle(UpdatePlatformCommand request, CancellationToken cancellationToken)
     {
-        var platform = await _unitOfWork.Platforms.FindAsync(x=>x.Id == request.Id, [x=>x.Include(d=>d.Selectors)] ,cancellationToken);
+        var platform = await _unitOfWork.Platforms.FindAsync(
+            x => x.Id == request.Id,
+            cancellationToken,
+            x => x.Selectors);
 
         if (platform == null)
             return Result.Failure(PlatformErrors.NotFound);

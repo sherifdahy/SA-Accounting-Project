@@ -10,7 +10,7 @@ public class ToggleStatusExpenseCategoryCommandHandler(IUnitOfWork unitOfWork) :
     public async Task<Result> Handle(ToggleStatusExpenseCategoryCommand command,CancellationToken cancellationToken)
     {
         var entity = await _unitOfWork.ExpenseCategories
-            .FindAsync(x => x.Id == command.Id,[],cancellationToken);
+            .FindAsync(x => x.Id == command.Id, cancellationToken);
 
         if (entity is null)
             return Result.Failure(ExpenseCategoryErrors.NotFound);

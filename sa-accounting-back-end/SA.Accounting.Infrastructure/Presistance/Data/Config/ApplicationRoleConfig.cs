@@ -1,4 +1,4 @@
-﻿using SA.Accounting.Core.Abstractions.Consts;
+using SA.Accounting.Core.Abstractions.Consts;
 using SA.Accounting.Core.Entities.Identity;
 using System;
 using System.Collections.Generic;

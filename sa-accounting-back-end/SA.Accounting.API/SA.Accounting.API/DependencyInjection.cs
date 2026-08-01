@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using SA.Accounting.Application;
-using SA.Accounting.Services.Authentication;
-using SA.Accounting.Services.Authentication.Filters;
 using SA.Accounting.Infrastructure;
 using SA.Accounting.Services;
 using System.Text;
+using SA.Accounting.Application.Abstractions.interfaces;
+using SA.Accounting.Infrastructure.Authentication;
+using SA.Accounting.Infrastructure.Authentication.Filters;
 
 namespace SA.Accounting.API;
 
@@ -60,6 +61,7 @@ public static class DependencyInjection
             {
                 ValidateIssuerSigningKey = true,
                 ValidateIssuer = true,
+                ValidateAudience = true,
                 ValidateActor = true,
                 ValidateLifetime = true,
 

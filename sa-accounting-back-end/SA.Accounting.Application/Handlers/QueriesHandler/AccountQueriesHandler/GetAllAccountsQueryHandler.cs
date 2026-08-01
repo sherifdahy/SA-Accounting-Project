@@ -18,12 +18,13 @@ public class GetAllAccountsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandle
     {
         Expression<Func<Company, bool>> query = x => (x.Id == request.CompanyId) ;
 
-        var company = await _unitOfWork.Companies.FindAsync(query, [x=>x.Include(s=>s.Accounts.Where(x=> (request.IncludeDisabled == true || x.IsDeleted == false))).ThenInclude(s=>s.Platform)],cancellationToken);
+        var company = await _unitOfWork.Companies.FindAsync(query, ["Accounts.Platform"], cancellationToken);
 
         if (company == null)
             return Result.Failure<List<AccountResponse>>(CompanyErrors.NotFound);
 
-        var response = company.Accounts.Adapt<List<AccountResponse>>();
+        var accounts = company.Accounts.Where(x => request.IncludeDisabled == true || x.IsDeleted == false);
+        var response = accounts.Adapt<List<AccountResponse>>();
 
         return Result.Success(response);
     }

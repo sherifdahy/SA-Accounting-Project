@@ -14,7 +14,11 @@ public class RemoveExpenseClaimItemCommandHandler(IUnitOfWork unitOfWork) : IReq
     public async Task<Result> Handle(RemoveExpenseClaimItemCommand command, CancellationToken cancellationToken)
     {
         // check claim item is exist
-        if (await _unitOfWork.ExpenseClaimItems.FindAsync(x => x.Id == command.ClaimItemId, [x => x.Include(x => x.ExpenseClaim),x=>x.Include(x=>x.ExpenseCategory)], cancellationToken) is not ExpenseClaimItem claimItem)
+        if (await _unitOfWork.ExpenseClaimItems.FindAsync(
+                x => x.Id == command.ClaimItemId,
+                cancellationToken,
+                x => x.ExpenseClaim,
+                x => x.ExpenseCategory) is not ExpenseClaimItem claimItem)
             return Result.Failure(ExpenseClaimItemErrors.NotFound);
 
         // check claim item is ([pending] or [rejected])

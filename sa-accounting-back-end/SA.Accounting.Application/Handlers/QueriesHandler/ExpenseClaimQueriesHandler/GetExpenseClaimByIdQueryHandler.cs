@@ -13,13 +13,10 @@ public class GetExpenseClaimByIdHandler(IUnitOfWork unitOfWork) : IRequestHandle
     public async Task<Result<ExpenseClaimResponse>> Handle(GetExpenseClaimByIdQuery query,CancellationToken cancellationToken)
     {
         var claim = await _unitOfWork.ExpenseClaims
-            .FindAsync(x => x.Id == query.Id, 
-            [
-                x=>x.Include(d=>d.User),
-                x=>x.Include(d=>d.Items).ThenInclude(c=>c.Company),
-                x=>x.Include(d=>d.Items).ThenInclude(c=>c.ExpenseCategory),
-                x=>x.Include(d=>d.Histories).ThenInclude(c=>c.CreatedBy)
-            ], cancellationToken);
+            .FindAsync(
+                x => x.Id == query.Id,
+                ["User", "Items.Company", "Items.ExpenseCategory", "Histories.CreatedBy"],
+                cancellationToken);
 
         if (claim is null)
             return Result.Failure<ExpenseClaimResponse>(ExpenseClaimErrors.NotFound);

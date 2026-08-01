@@ -13,7 +13,7 @@ public class ReviewExpenseClaimHandler(IUnitOfWork unitOfWork) : IRequestHandler
     {
         // check expense claim is exist
         var claim = await _unitOfWork.ExpenseClaims
-            .FindAsync(x => x.Id == command.Id, [d=>d.Include(i=>i.Items)],cancellationToken);
+            .FindAsync(x => x.Id == command.Id, cancellationToken, x => x.Items);
 
         if (claim is null)
             return Result.Failure(ExpenseClaimErrors.NotFound);

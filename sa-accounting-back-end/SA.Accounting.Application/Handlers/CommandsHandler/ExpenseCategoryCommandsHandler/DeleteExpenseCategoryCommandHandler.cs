@@ -10,7 +10,7 @@ public class DeleteExpenseCategoryCommandHandler (IUnitOfWork unitOfWork): IRequ
     public async Task<Result> Handle(DeleteExpenseCategoryCommand command,CancellationToken cancellationToken)
     {
         var entity = await _unitOfWork.ExpenseCategories
-            .FindAsync(x => x.Id == command.Id, [], cancellationToken);
+            .FindAsync(x => x.Id == command.Id, cancellationToken);
 
         if (entity is null)
             return Result.Failure(ExpenseCategoryErrors.NotFound);

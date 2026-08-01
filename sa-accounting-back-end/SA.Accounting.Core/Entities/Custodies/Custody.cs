@@ -1,8 +1,6 @@
-﻿using SA.Accounting.Core.Entities.Base;
+using SA.Accounting.Core.Entities.Base;
 using SA.Accounting.Core.Entities.Identity;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SA.Accounting.Core.Entities.Custodies;
 
@@ -16,3 +14,5 @@ public class Custody : AuditableEntity
     public virtual ApplicationUser User { get; set; } = default!;
     public virtual ICollection<CustodyMovement> Movements { get; set; } = new HashSet<CustodyMovement>();
 }
+
+

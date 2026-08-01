@@ -31,7 +31,14 @@ public class GetAllUserCompaniesQueryHandler(IUnitOfWork unitOfWork,UserManager<
 
         var count = await _unitOfWork.UserCompanies.CountAsync(expression, cancellationToken);
 
-        var userCompanies = await _unitOfWork.UserCompanies.FindAllAsync(expression, [x=>x.Include(i=>i.Company)],request.Filters.PageSize * (request.Filters.PageNumber - 1),request.Filters.PageSize,request.Filters.SortColumn,request.Filters.SortDirection,cancellationToken);
+        var userCompanies = await _unitOfWork.UserCompanies.FindAllAsync(
+            expression,
+            ["Company"],
+            request.Filters.PageSize * (request.Filters.PageNumber - 1),
+            request.Filters.PageSize,
+            request.Filters.SortColumn,
+            request.Filters.SortDirection,
+            cancellationToken);
         
         return Result.Success(PaginatedList<CompanyResponse>.Create(userCompanies.Select(d=>d.Company).Adapt<List<CompanyResponse>>(),count,request.Filters.PageNumber,request.Filters.PageSize));
     }

@@ -38,7 +38,7 @@ public class UpdatePermissionOverridesCommandHandler(
         // 3. REMOVE OLD OVERRIDES
         // =========================
         var existingOverrides = await _unitOfWork.DeniedPermissions
-            .FindAllAsync(x => x.UserId == request.UserId, [], cancellationToken);
+            .FindAllAsync(x => x.UserId == request.UserId, cancellationToken);
 
         if (existingOverrides.Count() > 0)
             _unitOfWork.DeniedPermissions.DeleteRange(existingOverrides);

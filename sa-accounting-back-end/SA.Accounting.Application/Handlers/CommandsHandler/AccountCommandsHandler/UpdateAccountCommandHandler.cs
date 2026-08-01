@@ -13,7 +13,7 @@ public class UpdateAccountCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
 
     public async Task<Result> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
     {
-        if (await _unitOfWork.Accounts.FindAsync(x=> x.CompanyId == request.CompanyId && x.PlatformId == request.PlatfromId, [],cancellationToken) is not Account account)
+        if (await _unitOfWork.Accounts.FindAsync(x => x.CompanyId == request.CompanyId && x.PlatformId == request.PlatfromId, cancellationToken) is not Account account)
             return Result.Failure(AccountErrors.NotFound);
 
         if (!_unitOfWork.Platforms.IsExist(x => x.Id == request.PlatfromId))

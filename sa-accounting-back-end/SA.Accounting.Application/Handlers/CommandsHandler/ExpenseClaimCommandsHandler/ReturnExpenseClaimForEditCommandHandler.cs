@@ -16,7 +16,7 @@ public class ReturnExpenseClaimForEditHandler(IUnitOfWork unitOfWork) : IRequest
     public async Task<Result> Handle(ReturnExpenseClaimForEditCommand command,CancellationToken cancellationToken)
     {
         var claim = await _unitOfWork.ExpenseClaims
-            .FindAsync(x => x.Id == command.Id, [], cancellationToken);
+            .FindAsync(x => x.Id == command.Id, cancellationToken);
 
         if (claim is null)
             return Result.Failure(ExpenseClaimErrors.NotFound);

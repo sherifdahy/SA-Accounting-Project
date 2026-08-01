@@ -10,6 +10,10 @@ Read these files at the start of a new AI/code session before changing the proje
 4. [Database Integrity](./04-database-integrity.md)
 5. [Current State And Decisions](./05-current-state-and-decisions.md)
 6. [AI Handoff Notes](./06-ai-handoff-notes.md)
+7. [Permission-Based Flows](./07-permission-based-flows.md)
+8. [System Module Flows](./08-system-module-flows.md)
+9. [Authentication Flow Specification](./09-authentication-flow-spec.md)
+10. [User Management Flow Specification](./10-user-management-flow-spec.md)
 
 The draw.io ERD lives at:
 

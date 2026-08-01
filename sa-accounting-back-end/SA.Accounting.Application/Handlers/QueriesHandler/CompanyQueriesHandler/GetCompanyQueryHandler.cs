@@ -16,7 +16,10 @@ public class GetCompanyQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<Ge
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     public async Task<Result<CompanyDetailResponse>> Handle(GetCompanyQuary request, CancellationToken cancellationToken)
     {
-        var company = await _unitOfWork.Companies.FindAsync(x => x.Id == request.Id,[w=>w.Include(d=>d.Owners.Where(s=> !s.IsDeleted)),w=>w.Include(d=>d.Accounts.Where(s=>!s.IsDeleted)).ThenInclude(h=>h.Platform).ThenInclude(x=>x.Selectors)],cancellationToken);
+        var company = await _unitOfWork.Companies.FindAsync(
+            x => x.Id == request.Id,
+            ["Owners", "Accounts.Platform.Selectors"],
+            cancellationToken);
 
         if (company == null)
             return Result.Failure<CompanyDetailResponse>(CompanyErrors.NotFound);

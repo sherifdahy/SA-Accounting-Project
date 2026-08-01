@@ -16,7 +16,7 @@ public class GetCustodyByIdQueryHandler(IUnitOfWork unitOfWork,ICustodyBalanceCa
     public async Task<Result<CustodyDetailsResponse>> Handle(GetCustodyByIdQuery query,CancellationToken cancellationToken)
     {
         var custody = await _unitOfWork.Custodies
-            .FindAsync(x => x.Id == query.Id, [x=>x.Include(x=>x.User)] ,cancellationToken);
+            .FindAsync(x => x.Id == query.Id, cancellationToken, x => x.User);
 
         if (custody is null)
             return Result.Failure<CustodyDetailsResponse>(CustodyErrors.NotFound);

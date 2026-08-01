@@ -1,4 +1,5 @@
-﻿using SA.Accounting.Core.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using SA.Accounting.Core.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,3 +12,4 @@ public interface IUserServices
     Task<IdentityResult> UpdateProfileAsync(ApplicationUser applicationUser, CancellationToken cancellationToken = default);
     Task<IdentityResult> ChangePasswordAsync(int userId, string currentPassword, string newPassword, CancellationToken cancellationToken);
 }
+

@@ -18,7 +18,9 @@ public class GetAllSelectorsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
         if (!_unitOfWork.Platforms.IsExist(x => x.Id == request.PlatformId))
             return Result.Failure<List<SelectorResponse>>(PlatformErrors.NotFound);
 
-        var selectors = await _unitOfWork.Selectors.FindAllAsync(x=> x.PlatformId == request.PlatformId && (request.IncludeDisabled == true || x.IsDeleted == false), [],cancellationToken);
+        var selectors = await _unitOfWork.Selectors.FindAllAsync(
+            x => x.PlatformId == request.PlatformId && (request.IncludeDisabled == true || x.IsDeleted == false),
+            cancellationToken);
 
         return Result.Success(selectors.Adapt<List<SelectorResponse>>());
     }

@@ -14,7 +14,7 @@ public class GetExpenseClaimsHandler(IUnitOfWork unitOfWork) : IRequestHandler<G
     public async Task<Result<IReadOnlyList<ExpenseClaimSummaryResponse>>> Handle(GetExpenseClaimsQuery query,CancellationToken cancellationToken)
     {
         var list = (await _unitOfWork.ExpenseClaims
-            .FindAllAsync(x => true, [x=>x.Include(x=>x.User)],cancellationToken))
+            .FindAllAsync(x => true, cancellationToken, x => x.User))
             .Select(x => new ExpenseClaimSummaryResponse(
                 x.Id,
                 x.Number,

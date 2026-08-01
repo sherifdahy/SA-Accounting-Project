@@ -18,3 +18,5 @@ public class ExpenseClaim : AuditableEntity
     public virtual ICollection<ExpenseClaimHistory> Histories { get; set; } = new HashSet<ExpenseClaimHistory>();
     public virtual CustodyMovement? SettlementMovement { get; set; }
 }
+
+

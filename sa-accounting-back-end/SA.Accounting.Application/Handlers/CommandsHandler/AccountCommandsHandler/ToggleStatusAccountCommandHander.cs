@@ -10,7 +10,7 @@ public class ToggleStatusAccountCommandHander(IUnitOfWork unitOfWork) : IRequest
 
     public async Task<Result> Handle(ToggleStatusAccountCommand request, CancellationToken cancellationToken)
     {
-        var email = await _unitOfWork.Accounts.FindAsync(x => x.CompanyId == request.CompanyId && x.PlatformId == request.PlatformId, [], cancellationToken);
+        var email = await _unitOfWork.Accounts.FindAsync(x => x.CompanyId == request.CompanyId && x.PlatformId == request.PlatformId, cancellationToken);
 
         if (email == null)
             return Result.Failure(AccountErrors.NotFound);

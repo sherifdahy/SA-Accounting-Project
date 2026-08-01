@@ -12,7 +12,11 @@ public class UpdateCompanyCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
 
     public async Task<Result> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
-        var company = await _unitOfWork.Companies.FindAsync(x=>x.Id == request.Id, [s=>s.Include(d=>d.Owners),s=>s.Include(d=>d.Accounts)],cancellationToken);
+        var company = await _unitOfWork.Companies.FindAsync(
+            x => x.Id == request.Id,
+            cancellationToken,
+            x => x.Owners,
+            x => x.Accounts);
         if (company is null)
             return Result.Failure(CompanyErrors.NotFound);
 

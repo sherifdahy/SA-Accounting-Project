@@ -20,7 +20,10 @@ public class UpdateExpenseClaimItemCommandHandler(IUnitOfWork unitOfWork) : IReq
     public async Task<Result> Handle(UpdateExpenseClaimItemCommand command, CancellationToken cancellationToken)
     {
         // check claim item is exist
-        if (await _unitOfWork.ExpenseClaimItems.FindAsync(x => x.Id == command.ClaimItemId, [x=>x.Include(x=>x.ExpenseClaim)], cancellationToken) is not ExpenseClaimItem claimItem)
+        if (await _unitOfWork.ExpenseClaimItems.FindAsync(
+                x => x.Id == command.ClaimItemId,
+                cancellationToken,
+                x => x.ExpenseClaim) is not ExpenseClaimItem claimItem)
             return Result.Failure(ExpenseClaimItemErrors.NotFound);
 
         // check claim is (draft or returned for edit)
@@ -32,7 +35,7 @@ public class UpdateExpenseClaimItemCommandHandler(IUnitOfWork unitOfWork) : IReq
             return Result.Failure<ExpenseClaimItemResponse>(CompanyErrors.NotFound);
 
         // check category is exist
-        if (await _unitOfWork.ExpenseCategories.FindAsync(x => x.Id == command.Request.ExpenseCategoryId, [], cancellationToken) is not ExpenseCategory category)
+        if (await _unitOfWork.ExpenseCategories.FindAsync(x => x.Id == command.Request.ExpenseCategoryId, cancellationToken) is not ExpenseCategory category)
             return Result.Failure<ExpenseClaimItemResponse>(ExpenseCategoryErrors.NotFound);
 
 

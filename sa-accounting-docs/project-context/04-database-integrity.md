@@ -23,6 +23,55 @@ fk.DeleteBehavior = DeleteBehavior.Restrict
 
 This is intentional. Avoid accidental deletion chains for company, expense, attachment, custody, and movement data.
 
+## Soft Delete Integrity
+
+The project uses soft delete for business records that should remain available for history and audit.
+
+Soft delete means:
+
+- regular delete actions should usually set a flag such as `IsDeleted` or `IsDisabled`
+- data should remain in the database
+- normal queries should exclude deleted/disabled records unless the flow explicitly needs them
+
+Existing examples:
+
+- `Company.IsDeleted`
+- `Account.IsDeleted`
+- `Owner.IsDeleted`
+- `Platform.IsDeleted`
+- `Selector.IsDeleted`
+- `ExpenseCategory.IsDisabled`
+- `Custody.IsDisabled`
+
+Database indexes should account for soft delete.
+
+Example:
+
+```text
+unique TaxRegistrationNumber where IsDeleted = 0
+```
+
+This allows historical deleted records to remain while preventing duplicates among active records.
+
+When adding new unique indexes, decide whether they should be filtered by the soft-delete flag.
+
+## Repository And Unit Of Work Integrity
+
+Application code should normally go through:
+
+```text
+IUnitOfWork -> IRepository<T>
+```
+
+This keeps persistence access consistent and makes it easier to enforce:
+
+- soft-delete behavior
+- company scoping
+- transaction boundaries
+- shared query conventions
+
+Do not bypass repositories with direct `ApplicationDbContext` access unless there is a clear reason.
+
 ## Attachment Integrity
 
 Current intended rules:

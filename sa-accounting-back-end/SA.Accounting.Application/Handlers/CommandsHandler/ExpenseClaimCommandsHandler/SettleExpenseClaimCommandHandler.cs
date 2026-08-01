@@ -18,7 +18,7 @@ public class SettleExpenseClaimHandler(IUnitOfWork unitOfWork,ICustodyBalanceCal
     {
         // Load claim with items
         var claim = await _unitOfWork.ExpenseClaims
-            .FindAsync(x => x.Id == command.Id, [d=>d.Include(i=>i.Items)], cancellationToken);
+            .FindAsync(x => x.Id == command.Id, cancellationToken, x => x.Items);
 
         if (claim is null)
             return Result.Failure(ExpenseClaimErrors.NotFound);
@@ -44,7 +44,7 @@ public class SettleExpenseClaimHandler(IUnitOfWork unitOfWork,ICustodyBalanceCal
         var approvedAmount = approvedItems.Sum(i => i.Amount);
 
         // Get user's active custody
-        var custody = await _unitOfWork.Custodies.FindAsync(x => x.UserId == claim.UserId,[],cancellationToken);
+        var custody = await _unitOfWork.Custodies.FindAsync(x => x.UserId == claim.UserId, cancellationToken);
 
         if (custody is null)
             return Result.Failure(CustodyErrors.NotActive);

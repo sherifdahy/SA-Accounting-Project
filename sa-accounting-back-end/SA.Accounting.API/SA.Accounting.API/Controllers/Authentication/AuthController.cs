@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SA.Accounting.Application.Commands.Auth;
+using SA.Accounting.Application.Contracts.Auth.Requests;
 using SA.Accounting.Core.Extensions;
 
 namespace SA.Accounting.API.Controllers.Authentication;
@@ -11,10 +12,12 @@ public class AuthController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
 
-    [HttpPost(GetTokenCommand.Route)]
-    public async Task<IActionResult> GetToken(GetTokenCommand command, CancellationToken cancellationToken)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequest request, CancellationToken cancellationToken)
     {
+        var command = new LoginCommand() with { Email = request.Email , Password = request.Password};
         var result = await _mediator.Send(command, cancellationToken);
+
         return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
 

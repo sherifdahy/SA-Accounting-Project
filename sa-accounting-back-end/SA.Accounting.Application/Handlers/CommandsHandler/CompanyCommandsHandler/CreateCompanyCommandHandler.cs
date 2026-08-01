@@ -24,7 +24,10 @@ public class CreateCompanyCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
         await _unitOfWork.Companies.AddAsync(oData, cancellationToken);
         await _unitOfWork.SaveAsync(cancellationToken);
 
-        var company = await _unitOfWork.Companies.FindAsync(x=>x.Id == oData.Id, [x=>x.Include(d=>d.Accounts).ThenInclude(w=>w.Platform),s=>s.Include(d=>d.Owners)],cancellationToken);
+        var company = await _unitOfWork.Companies.FindAsync(
+            x => x.Id == oData.Id,
+            ["Accounts.Platform", "Owners"],
+            cancellationToken);
         
         return Result.Success(company.Adapt<CompanyDetailResponse>());
     }

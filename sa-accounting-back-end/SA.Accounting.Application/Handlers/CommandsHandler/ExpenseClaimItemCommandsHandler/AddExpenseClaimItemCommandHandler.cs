@@ -17,7 +17,7 @@ public class AddExpenseClaimItemCommandHandler(IUnitOfWork unitOfWork,IFileServi
     public async Task<Result<ExpenseClaimItemResponse>> Handle(AddExpenseClaimItemCommand command, CancellationToken cancellationToken)
     {
         // check claim is exist
-        if (await _unitOfWork.ExpenseClaims.FindAsync(x => x.Id == command.ClaimId, [],cancellationToken) is not ExpenseClaim claim)
+        if (await _unitOfWork.ExpenseClaims.FindAsync(x => x.Id == command.ClaimId, cancellationToken) is not ExpenseClaim claim)
             return Result.Failure<ExpenseClaimItemResponse>(ExpenseClaimErrors.NotFound);
 
         // check claim is (draft or returned for edit)
@@ -29,7 +29,7 @@ public class AddExpenseClaimItemCommandHandler(IUnitOfWork unitOfWork,IFileServi
             return Result.Failure<ExpenseClaimItemResponse>(CompanyErrors.NotFound);
 
         // check category is exist
-        if (await _unitOfWork.ExpenseCategories.FindAsync(x => x.Id == command.Request.ExpenseCategoryId, [],cancellationToken) is not ExpenseCategory category)
+        if (await _unitOfWork.ExpenseCategories.FindAsync(x => x.Id == command.Request.ExpenseCategoryId, cancellationToken) is not ExpenseCategory category)
             return Result.Failure<ExpenseClaimItemResponse>(ExpenseCategoryErrors.NotFound);
 
         // check files attachment

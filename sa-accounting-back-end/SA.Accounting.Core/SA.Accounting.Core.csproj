@@ -7,10 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
-	  <FrameworkReference Include="Microsoft.AspNetCore.App"></FrameworkReference>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
-	  </PackageReference>
   </ItemGroup>
 
 </Project>

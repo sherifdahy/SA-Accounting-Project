@@ -6,7 +6,7 @@ using SA.Accounting.Core.Entities.Custodies;
 using SA.Accounting.Core.Entities.ExpenseClaims;
 using SA.Accounting.Core.Entities.Identity;
 using SA.Accounting.Core.Entities.Platforms;
-using SA.Accounting.Infrastructure.Extensions;
+using System.Security.Claims;
 
 namespace SA.Accounting.Infrastructure.Presistance.Data;
 
@@ -53,7 +53,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser,Applicatio
 
         if (entries.Any())
         {
-            var currentUserId = _httpContext.HttpContext!.User.GetUserId();
+            var currentUserId = GetUserId(_httpContext.HttpContext!.User);
             foreach (var entityEntry in entries)
             {
                 if (entityEntry.State == EntityState.Added)
@@ -71,4 +71,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser,Applicatio
 
         return base.SaveChangesAsync(cancellationToken);
     }
+
+    private static int GetUserId(ClaimsPrincipal user)
+    {
+        var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        int.TryParse(userId, out var id);
+
+        return id;
+    }
 }
+

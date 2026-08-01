@@ -13,7 +13,10 @@ public class GetPlatformQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<G
 
     async Task<Result<PlatformDetailResponse>> IRequestHandler<GetPlatformQuery, Result<PlatformDetailResponse>>.Handle(GetPlatformQuery request, CancellationToken cancellationToken)
     {
-        var platform = await _unitOfWork.Platforms.FindAsync(x=>x.Id == request.Id,[x=>x.Include(d=>d.Selectors)],cancellationToken);
+        var platform = await _unitOfWork.Platforms.FindAsync(
+            x => x.Id == request.Id,
+            cancellationToken,
+            x => x.Selectors);
 
         if (platform == null)
             return Result.Failure<PlatformDetailResponse>(PlatformErrors.NotFound);

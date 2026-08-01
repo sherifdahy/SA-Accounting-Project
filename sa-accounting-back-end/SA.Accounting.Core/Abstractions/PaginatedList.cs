@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace SA.Accounting.Core.Abstractions;
-
+﻿namespace SA.Accounting.Core.Abstractions;
 public class PaginatedList<T>
 {
     public List<T> Items { get; private set; }
