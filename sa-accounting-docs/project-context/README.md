@@ -14,6 +14,7 @@ Read these files at the start of a new AI/code session before changing the proje
 8. [System Module Flows](./08-system-module-flows.md)
 9. [Authentication Flow Specification](./09-authentication-flow-spec.md)
 10. [User Management Flow Specification](./10-user-management-flow-spec.md)
+11. [UX Blueprint](./11-ux-blueprint.md)
 
 The draw.io ERD lives at:
 

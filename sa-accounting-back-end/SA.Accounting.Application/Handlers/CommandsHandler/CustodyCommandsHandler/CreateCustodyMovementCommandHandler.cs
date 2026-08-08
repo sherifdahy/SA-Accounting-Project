@@ -5,7 +5,6 @@ using SA.Accounting.Application.Errors;
 using SA.Accounting.Core.Entities.Custodies;
 using SA.Accounting.Core.Entities.Interfaces;
 using SA.Accounting.Core.Enums;
-using SA.Accounting.Infrastructure.Presistance.Data;
 using SA.Accounting.Services.Services;
 using System;
 using System.Collections.Generic;

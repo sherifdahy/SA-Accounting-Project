@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1880" viewBox="0 0 1600 1880" role="img" aria-labelledby="title desc">
+  <title id="title">SA Accounting UX wireframes</title>
+  <desc id="desc">أربع واجهات مبدئية لنظام SA Accounting: shell وdashboard، تفاصيل الشركة، إنشاء مستخدم، ومراجعة مطالبة مصروف.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#111827" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .font { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+      .title { font-size: 30px; font-weight: 700; fill: #111827; }
+      .section { font-size: 22px; font-weight: 700; fill: #111827; }
+      .body { font-size: 17px; fill: #374151; }
+      .muted { font-size: 15px; fill: #6B7280; }
+      .small { font-size: 13px; fill: #6B7280; }
+      .small-dark { font-size: 13px; fill: #374151; }
+      .nav { font-size: 16px; fill: #D1D5DB; }
+      .nav-active { font-size: 16px; font-weight: 700; fill: #111827; }
+      .label { font-size: 14px; font-weight: 600; fill: #374151; }
+      .value { font-size: 23px; font-weight: 700; fill: #111827; }
+      .line { stroke: #E5E7EB; stroke-width: 1; }
+      .border { fill: #FFFFFF; stroke: #E5E7EB; stroke-width: 1; }
+      .primary { fill: #1A1F3A; }
+      .accent { fill: #3B82F6; }
+      .success { fill: #10B981; }
+      .success-soft { fill: #D1FAE5; }
+      .warning-soft { fill: #FEF3C7; }
+      .danger-soft { fill: #FEE2E2; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1880" fill="#EEF1F5"/>
+  <text x="1480" y="48" text-anchor="end" class="font title">SA Accounting — Visual UX Direction</text>
+  <text x="1480" y="78" text-anchor="end" class="font muted">Desktop WPF • RTL • Permission-aware • Company-scoped</text>
+
+  <!-- 1. Dashboard shell -->
+  <g transform="translate(70,120)" filter="url(#shadow)">
+    <rect width="1460" height="420" rx="16" fill="#FFFFFF"/>
+    <rect width="250" height="420" rx="16" class="primary"/>
+    <rect x="228" width="22" height="420" fill="#1A1F3A"/>
+    <text x="216" y="38" text-anchor="end" class="font small" fill="#9CA3AF">01 / DASHBOARD</text>
+    <rect x="24" y="28" width="42" height="42" rx="12" fill="#FFFFFF" opacity="0.15"/>
+    <text x="45" y="57" text-anchor="middle" class="font" font-size="21" fill="#FFFFFF">SA</text>
+    <text x="96" y="48" class="font" font-size="16" font-weight="700" fill="#FFFFFF">Saber Eid</text>
+    <text x="96" y="68" class="font" font-size="12" fill="#9CA3AF">Accounting System</text>
+    <rect x="16" y="100" width="218" height="42" rx="10" fill="#FFFFFF" opacity="0.12"/>
+    <text x="210" y="126" text-anchor="end" class="font nav-active">الرئيسية</text>
+    <text x="210" y="171" text-anchor="end" class="font nav">الشركات</text>
+    <text x="210" y="214" text-anchor="end" class="font nav">المصروفات</text>
+    <text x="210" y="257" text-anchor="end" class="font nav">العهد</text>
+    <text x="210" y="300" text-anchor="end" class="font nav">إدارة النظام</text>
+    <line x1="20" y1="337" x2="230" y2="337" stroke="#374151"/>
+    <circle cx="205" cy="378" r="18" fill="#3B82F6"/>
+    <text x="175" y="382" text-anchor="end" class="font small" fill="#FFFFFF">أحمد محمد</text>
+    <text x="175" y="400" text-anchor="end" class="font" font-size="11" fill="#9CA3AF">مراجع حسابات</text>
+
+    <rect x="250" width="1210" height="64" fill="#FFFFFF"/>
+    <line x1="250" y1="64" x2="1460" y2="64" class="line"/>
+    <text x="1415" y="38" text-anchor="end" class="font section">لوحة المتابعة</text>
+    <rect x="1010" y="18" width="260" height="32" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+    <text x="1252" y="39" text-anchor="end" class="font small-dark">نطاق الشركات: كل الشركات ▾</text>
+    <circle cx="1320" cy="34" r="14" fill="#EFF6FF"/>
+    <text x="1320" y="39" text-anchor="middle" class="font" font-size="14" fill="#3B82F6">⌕</text>
+    <circle cx="1380" cy="34" r="16" fill="#EEF2FF"/>
+    <text x="1380" y="40" text-anchor="middle" class="font" font-size="14" fill="#1A1F3A">أ</text>
+
+    <text x="1415" y="103" text-anchor="end" class="font title">صباح الخير، أحمد</text>
+    <text x="1415" y="130" text-anchor="end" class="font muted">دي أهم المهام والبيانات اللي محتاجة انتباهك النهارده.</text>
+    <g transform="translate(285,160)">
+      <rect width="250" height="100" rx="12" class="border"/>
+      <text x="225" y="28" text-anchor="end" class="font label">مطالبات للمراجعة</text>
+      <text x="225" y="70" text-anchor="end" class="font value">12</text>
+      <rect x="18" y="60" width="62" height="22" rx="11" class="warning-soft"/>
+      <text x="49" y="76" text-anchor="middle" class="font small-dark">تحتاج إجراء</text>
+    </g>
+    <g transform="translate(555,160)">
+      <rect width="250" height="100" rx="12" class="border"/>
+      <text x="225" y="28" text-anchor="end" class="font label">شركاتي</text>
+      <text x="225" y="70" text-anchor="end" class="font value">38</text>
+      <text x="18" y="76" class="font small">ضمن نطاقك الحالي</text>
+    </g>
+    <g transform="translate(825,160)">
+      <rect width="250" height="100" rx="12" class="border"/>
+      <text x="225" y="28" text-anchor="end" class="font label">مطالبات مسودة</text>
+      <text x="225" y="70" text-anchor="end" class="font value">5</text>
+      <text x="18" y="76" class="font small">لديك مسودات محفوظة</text>
+    </g>
+    <g transform="translate(1095,160)">
+      <rect width="250" height="100" rx="12" class="border"/>
+      <text x="225" y="28" text-anchor="end" class="font label">مرفقات جديدة</text>
+      <text x="225" y="70" text-anchor="end" class="font value">24</text>
+      <text x="18" y="76" class="font small">آخر 7 أيام</text>
+    </g>
+    <rect x="285" y="286" width="660" height="92" rx="12" fill="#F8FAFF" stroke="#DBEAFE"/>
+    <text x="915" y="316" text-anchor="end" class="font label">قائمة العمل</text>
+    <text x="915" y="344" text-anchor="end" class="font body">12 مطالبة في انتظار المراجعة</text>
+    <rect x="320" y="318" width="130" height="32" rx="8" class="accent"/>
+    <text x="385" y="339" text-anchor="middle" class="font" font-size="14" fill="#FFFFFF">فتح القائمة</text>
+    <rect x="965" y="286" width="380" height="92" rx="12" class="border"/>
+    <text x="1315" y="316" text-anchor="end" class="font label">الرصيد الحالي للعهد</text>
+    <text x="1315" y="352" text-anchor="end" class="font value">18,450.00 ج.م</text>
+  </g>
+
+  <!-- 2. Company details -->
+  <g transform="translate(70,590)" filter="url(#shadow)">
+    <rect width="1460" height="420" rx="16" fill="#FFFFFF"/>
+    <rect width="1460" height="64" rx="16" fill="#FFFFFF"/>
+    <line x1="0" y1="64" x2="1460" y2="64" class="line"/>
+    <text x="1415" y="38" text-anchor="end" class="font section">الشركات / شركة النور</text>
+    <rect x="1145" y="17" width="110" height="32" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+    <text x="1200" y="38" text-anchor="middle" class="font small-dark">تعديل</text>
+    <rect x="1270" y="17" width="145" height="32" rx="8" class="primary"/>
+    <text x="1342" y="38" text-anchor="middle" class="font" font-size="14" fill="#FFFFFF">إضافة مرفق</text>
+    <text x="1415" y="102" text-anchor="end" class="font title">شركة النور</text>
+    <rect x="1240" y="80" width="70" height="24" rx="12" class="success-soft"/>
+    <text x="1275" y="97" text-anchor="middle" class="font small-dark">نشطة</text>
+    <text x="1200" y="98" text-anchor="end" class="font muted">متاحة ضمن نطاقك</text>
+    <rect x="285" y="124" width="1060" height="42" rx="9" fill="#F9FAFB"/>
+    <text x="1298" y="151" text-anchor="end" class="font small-dark">نظرة عامة</text>
+    <text x="1130" y="151" text-anchor="end" class="font small-dark">الملاك</text>
+    <text x="975" y="151" text-anchor="end" class="font small-dark">الحسابات</text>
+    <text x="815" y="151" text-anchor="end" class="font small-dark">المرفقات</text>
+    <text x="655" y="151" text-anchor="end" class="font small-dark">المصروفات</text>
+    <text x="470" y="151" text-anchor="end" class="font small-dark">التاريخ</text>
+    <rect x="1200" y="159" width="115" height="3" class="accent"/>
+    <rect x="285" y="196" width="660" height="170" rx="12" class="border"/>
+    <text x="915" y="230" text-anchor="end" class="font section">البيانات الأساسية</text>
+    <text x="900" y="268" text-anchor="end" class="font label">الاسم التجاري</text>
+    <text x="620" y="268" text-anchor="end" class="font body">شركة النور للخدمات</text>
+    <text x="900" y="306" text-anchor="end" class="font label">رقم التسجيل الضريبي</text>
+    <text x="620" y="306" text-anchor="end" class="font body">٣٠٢-٨٨١-١٢</text>
+    <text x="900" y="344" text-anchor="end" class="font label">العنوان</text>
+    <text x="620" y="344" text-anchor="end" class="font body">مدينة نصر، القاهرة</text>
+    <rect x="965" y="196" width="380" height="170" rx="12" fill="#F8FAFF" stroke="#DBEAFE"/>
+    <text x="1315" y="230" text-anchor="end" class="font section">ملخص النشاط</text>
+    <text x="1315" y="272" text-anchor="end" class="font body">آخر مطالبة</text>
+    <text x="1110" y="272" text-anchor="end" class="font label">EXP-2026-001</text>
+    <text x="1315" y="310" text-anchor="end" class="font body">آخر مرفق</text>
+    <text x="1110" y="310" text-anchor="end" class="font label">إيصال حكومي.pdf</text>
+    <text x="1315" y="348" text-anchor="end" class="font body">المستخدمون</text>
+    <text x="1110" y="348" text-anchor="end" class="font label">6 موظفين</text>
+    <text x="30" y="39" class="font small" fill="#6B7280">02 / COMPANY WORKSPACE</text>
+  </g>
+
+  <!-- 3. User access wizard -->
+  <g transform="translate(70,1060)" filter="url(#shadow)">
+    <rect width="1460" height="360" rx="16" fill="#FFFFFF"/>
+    <text x="1415" y="44" text-anchor="end" class="font title">إنشاء مستخدم</text>
+    <text x="30" y="39" class="font small">03 / USER ACCESS</text>
+    <line x1="0" y1="70" x2="1460" y2="70" class="line"/>
+    <circle cx="1180" cy="112" r="16" class="accent"/><text x="1180" y="118" text-anchor="middle" class="font" font-size="13" fill="#FFFFFF">1</text>
+    <line x1="1196" y1="112" x2="1030" y2="112" stroke="#3B82F6" stroke-width="2"/>
+    <circle cx="1014" cy="112" r="16" class="accent"/><text x="1014" y="118" text-anchor="middle" class="font" font-size="13" fill="#FFFFFF">2</text>
+    <line x1="998" y1="112" x2="832" y2="112" stroke="#3B82F6" stroke-width="2"/>
+    <circle cx="816" cy="112" r="16" fill="#E5E7EB"/><text x="816" y="118" text-anchor="middle" class="font" font-size="13" fill="#6B7280">3</text>
+    <text x="1210" y="151" text-anchor="middle" class="font small-dark">البيانات</text>
+    <text x="1014" y="151" text-anchor="middle" class="font small-dark">الأدوار</text>
+    <text x="816" y="151" text-anchor="middle" class="font muted">الشركات</text>
+    <rect x="285" y="180" width="1060" height="104" rx="12" class="border"/>
+    <text x="1295" y="211" text-anchor="end" class="font section">نطاق الشركات</text>
+    <circle cx="1210" cy="249" r="8" fill="#3B82F6"/><circle cx="1210" cy="249" r="3" fill="#FFFFFF"/>
+    <text x="1188" y="254" text-anchor="end" class="font body">شركات محددة</text>
+    <circle cx="1010" cy="249" r="8" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/>
+    <text x="988" y="254" text-anchor="end" class="font body">كل الشركات</text>
+    <rect x="350" y="226" width="360" height="34" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+    <text x="690" y="248" text-anchor="end" class="font small">ابحث عن شركة...</text>
+    <rect x="735" y="226" width="150" height="34" rx="8" class="success-soft"/>
+    <text x="810" y="248" text-anchor="middle" class="font small-dark">✓ شركة النور</text>
+    <rect x="890" y="226" width="150" height="34" rx="8" class="success-soft"/>
+    <text x="965" y="248" text-anchor="middle" class="font small-dark">✓ شركة الأمل</text>
+    <text x="1295" y="318" text-anchor="end" class="font muted">تم اختيار شركتين — سيظهر للمستخدم فقط ما يقع داخل نطاقه.</text>
+    <rect x="285" y="312" width="120" height="34" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+    <text x="345" y="334" text-anchor="middle" class="font small-dark">رجوع</text>
+    <rect x="1215" y="312" width="130" height="34" rx="8" class="primary"/>
+    <text x="1280" y="334" text-anchor="middle" class="font" font-size="14" fill="#FFFFFF">التالي</text>
+  </g>
+
+  <!-- 4. Claim review -->
+  <g transform="translate(70,1480)" filter="url(#shadow)">
+    <rect width="1460" height="330" rx="16" fill="#FFFFFF"/>
+    <text x="1415" y="42" text-anchor="end" class="font title">مراجعة مطالبة المصروف</text>
+    <text x="30" y="39" class="font small">04 / EXPENSE REVIEW</text>
+    <text x="1415" y="78" text-anchor="end" class="font muted">EXP-2026-001 • أحمد محمد • 01/08/2026</text>
+    <rect x="1260" y="61" width="80" height="24" rx="12" class="warning-soft"/>
+    <text x="1300" y="78" text-anchor="middle" class="font small-dark">مقدمة</text>
+    <rect x="285" y="108" width="1060" height="48" rx="8" fill="#F9FAFB"/>
+    <text x="1290" y="138" text-anchor="end" class="font label">البند</text>
+    <text x="1080" y="138" text-anchor="end" class="font label">الشركة</text>
+    <text x="880" y="138" text-anchor="end" class="font label">التصنيف</text>
+    <text x="680" y="138" text-anchor="end" class="font label">المبلغ</text>
+    <text x="510" y="138" text-anchor="end" class="font label">مرفقات</text>
+    <text x="350" y="138" text-anchor="end" class="font label">القرار</text>
+    <line x1="285" y1="156" x2="1345" y2="156" class="line"/>
+    <text x="1290" y="190" text-anchor="end" class="font body">رسوم حكومية</text>
+    <text x="1080" y="190" text-anchor="end" class="font body">شركة النور</text>
+    <text x="880" y="190" text-anchor="end" class="font body">رسوم</text>
+    <text x="680" y="190" text-anchor="end" class="font body">500.00</text>
+    <text x="510" y="190" text-anchor="end" class="font body">2 ملفات</text>
+    <rect x="285" y="172" width="96" height="26" rx="13" class="success-soft"/>
+    <text x="333" y="190" text-anchor="middle" class="font small-dark">موافقة</text>
+    <line x1="285" y1="212" x2="1345" y2="212" class="line"/>
+    <text x="1290" y="248" text-anchor="end" class="font body">انتقالات</text>
+    <text x="1080" y="248" text-anchor="end" class="font body">شركة الأمل</text>
+    <text x="880" y="248" text-anchor="end" class="font body">انتقالات</text>
+    <text x="680" y="248" text-anchor="end" class="font body">750.00</text>
+    <text x="510" y="248" text-anchor="end" class="font body">0 ملفات</text>
+    <rect x="285" y="230" width="96" height="26" rx="13" class="danger-soft"/>
+    <text x="333" y="248" text-anchor="middle" class="font small-dark">رفض</text>
+    <rect x="1120" y="272" width="105" height="34" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+    <text x="1172" y="294" text-anchor="middle" class="font small-dark">إرجاع للتعديل</text>
+    <rect x="1240" y="272" width="105" height="34" rx="8" class="primary"/>
+    <text x="1292" y="294" text-anchor="middle" class="font" font-size="14" fill="#FFFFFF">اعتماد</text>
+  </g>
+</svg>

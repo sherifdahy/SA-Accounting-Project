@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore.Storage;
 using SA.Accounting.Core.Entities.Attachments;
 using SA.Accounting.Core.Entities.Companies;
 using SA.Accounting.Core.Entities.Custodies;
@@ -26,5 +27,7 @@ public interface IUnitOfWork : IDisposable
     public IRepository<Attachment> Attachments { get; }
     int Save();
     Task<int> SaveAsync(CancellationToken cancellationToken = default);
+    Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
+
 }
 

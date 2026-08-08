@@ -6,13 +6,15 @@ using SA.Accounting.Application.Errors;
 
 namespace SA.Accounting.Application.Handlers.CommandsHandler.AuthCommandsHandler;
 
-public class LoginCommandHandler(IIdentityService identityService,IJWTProvider accessTokenService) : IRequestHandler<LoginCommand, Result<AuthResponse>>
+public class LoginCommandHandler(IUserService userService,IRoleService roleService,IIdentityService identityService,IJWTProvider accessTokenService) : IRequestHandler<LoginCommand, Result<AuthResponse>>
 {
+    private readonly IUserService _userService = userService;
+    private readonly IRoleService _roleService = roleService;
     private readonly IIdentityService _identityService = identityService;
     private readonly IJWTProvider _accessTokenService = accessTokenService;
     public async Task<Result<AuthResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _identityService.FindByEmailAsync(request.Email, cancellationToken);
+        var user = await _userService.FindByEmailAsync(request.Email, cancellationToken);
         if (user is null)
             return Result.Failure<AuthResponse>(UserErrors.InvalidCredentials);
 
@@ -27,18 +29,18 @@ public class LoginCommandHandler(IIdentityService identityService,IJWTProvider a
         else if(result == LoginResult.InvalidCredentials)
             return Result.Failure<AuthResponse>(UserErrors.InvalidCredentials);
 
-        var roles = await _identityService.GetRolesAsync(user, cancellationToken);
+        var roles = await _userService.GetRolesAsync(user, cancellationToken);
 
         var permissions = new List<string>();
 
         foreach (var roleName in roles)
         {
-            var rolePermissions = await _identityService.GetRolePermissionsAsync(roleName, cancellationToken);
+            var rolePermissions = await _roleService.GetRolePermissionsAsync(roleName, cancellationToken);
 
             permissions.AddRange(rolePermissions);
         }
 
-        var deniedPermissions = await _identityService.GetDeniedPermissionsAsync(user, cancellationToken);
+        var deniedPermissions = await _roleService.GetDeniedPermissionsAsync(user, cancellationToken);
         permissions = permissions
             .Except(deniedPermissions)
             .Distinct()

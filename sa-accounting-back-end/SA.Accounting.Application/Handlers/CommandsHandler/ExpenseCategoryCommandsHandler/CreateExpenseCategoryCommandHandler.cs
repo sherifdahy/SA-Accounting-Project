@@ -4,7 +4,6 @@ using SA.Accounting.Application.Contracts.ExpenseCategories.Responses;
 using SA.Accounting.Application.Errors;
 using SA.Accounting.Core.Entities.ExpenseClaims;
 using SA.Accounting.Core.Entities.Interfaces;
-using SA.Accounting.Infrastructure.Presistance.Data;
 
 namespace SA.Accounting.Application.Handlers.CommandsHandler.ExpenseCategoryCommandHandler;
 

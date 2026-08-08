@@ -5,6 +5,7 @@ using SA.Accounting.Core.Entities.Identity;
 using SA.Accounting.Infrastructure.Presistance.Data;
 using SA.Accounting.Infrastructure.Presistance.Repository;
 using SA.Accounting.Infrastructure.Services;
+using SA.Accounting.Services.Services;
 
 namespace SA.Accounting.Infrastructure;
 public static class InfrastructureRegistrations
@@ -61,6 +62,10 @@ public static class InfrastructureRegistrations
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<IAccountService, AccountService>();
     }
 }
 

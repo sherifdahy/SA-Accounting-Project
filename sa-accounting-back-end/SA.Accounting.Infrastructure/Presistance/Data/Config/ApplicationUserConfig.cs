@@ -13,8 +13,8 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
 {
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
-        builder.Property(x => x.SSN).HasMaxLength(256);
         builder.Property(x => x.Name).HasMaxLength(256);
+        builder.Property(x => x.SSN).HasMaxLength(256);
 
         builder.HasData(new ApplicationUser()
         {

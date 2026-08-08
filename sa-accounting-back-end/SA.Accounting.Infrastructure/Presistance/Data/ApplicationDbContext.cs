@@ -17,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser,Applicatio
     public ApplicationDbContext(IHttpContextAccessor context, DbContextOptions<ApplicationDbContext> options) : base(options)
     {
         _httpContext = context;
+
+        
     }
 
     public virtual DbSet<Company> Companies { get; set; }

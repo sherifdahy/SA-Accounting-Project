@@ -1,69 +1,119 @@
 ﻿using Mapster;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using SA.Accounting.Application.Abstractions.interfaces;
 using SA.Accounting.Application.Commands.User;
 using SA.Accounting.Application.Errors;
-using SA.Accounting.Core.Abstractions.Consts;
 using SA.Accounting.Core.Entities.Identity;
 using SA.Accounting.Core.Entities.Interfaces;
 
-public class UpdateUserCommandHandler(UserManager<ApplicationUser> userManager,RoleManager<ApplicationRole> roleManager) : IRequestHandler<UpdateUserCommand, Result>
+public class UpdateUserCommandHandler(
+    IIdentityService identityService,
+    IUserService userService,
+    IRoleService roleService,
+    IUnitOfWork unitOfWork,
+    IAccountService accountService,
+    ICompanyService companyService) : IRequestHandler<UpdateUserCommand, Result>
 {
-    private readonly UserManager<ApplicationUser> _userManager = userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager = roleManager;
+    private readonly IIdentityService _identityService = identityService;
+    private readonly IUserService _userService = userService;
+    private readonly IRoleService _roleService = roleService;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IAccountService _accountService = accountService;
+    private readonly ICompanyService _companyService = companyService;
+
     public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        if (await _userManager.FindByIdAsync(request.UserId.ToString()) is not ApplicationUser user)
+        //Validation
+
+        /// - validate user id
+        if (await _userService.FindByIdAsync(request.UserId) is not ApplicationUser user)
             return Result.Failure(UserErrors.NotFound);
 
-        if (await _roleManager.FindByNameAsync(request.Role) is null)
-            return Result.Failure(RoleErrors.NotFound);
+        /// - validate roles
+        var rolesValidation = await _roleService.ValidateRolesAsync(request.Roles);
 
-        if (await _userManager.Users.AnyAsync(
-            x => x.Email == request.Email && x.Id != request.UserId, cancellationToken))
-            return Result.Failure(UserErrors.DuplicatedEmail);
+        if (rolesValidation.IsFailure)
+            return rolesValidation;
 
-        if (!string.IsNullOrWhiteSpace(request.SSN)
-            && await _userManager.Users.AnyAsync(
-                x => x.SSN == request.SSN && x.Id != request.UserId, cancellationToken))
-            return Result.Failure(UserErrors.DuplicateSSN);
+        /// - validate email
+        if (request.Email != user.Email)
+        {
+            var result = await _userService.ValidateEmailAsync(request.Email, cancellationToken);
+            if(!result)    
+                return Result.Failure(UserErrors.DuplicatedEmail);
+        }
 
+        /// - validate ssn
+        if (!string.IsNullOrWhiteSpace(request.SSN) && request.SSN != user.SSN)
+        {
+            var result = await _userService.ValidateSSNAsync(request.SSN, cancellationToken);
+            
+            if(!result)
+                return Result.Failure(UserErrors.DuplicateSSN);
+        }
+
+        /// - validate companyIds
+        var validationCompaniesResult = await _companyService.ValidateCompaniesAsync(request.CompanyIds);
+
+        if (validationCompaniesResult.IsFailure)
+            return Result.Failure(CompanyErrors.NotFound);
+
+        // mapping
 
         request.Adapt(user);
 
         user.UserName = request.Email;
 
-        if (!string.IsNullOrEmpty(request.Password))
-        {
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var passwordResult = await _userManager.ResetPasswordAsync(user, token, request.Password);
+        // open transaction
 
-            if (!passwordResult.Succeeded)
+        await using var transaction =  await  _unitOfWork.BeginTransactionAsync(cancellationToken);
+
+        // change password
+
+        try
+        {
+            if (!string.IsNullOrEmpty(request.Password))
             {
-                var pwError = passwordResult.Errors.First();
-                return Result.Failure(new Error(pwError.Code, pwError.Description, StatusCodes.Status400BadRequest));
+                var changePasswordResult = await _accountService.ChangePasswordAsync(user, request.Password);
+
+                if (changePasswordResult.IsFailure)
+                    return Result.Failure(changePasswordResult.Error);
             }
+
+            // update user
+
+            var updateResult = await _userService.UpdateAsync(user);
+
+            if (updateResult.IsFailure)
+                return Result.Failure(updateResult.Error);
+
+            // update roles
+
+            var currentRoles = await _userService.GetRolesAsync(user, cancellationToken);
+
+            var rolesToAdd = request.Roles.Except(currentRoles);
+            var rolesToRemove = currentRoles.Except(request.Roles);
+
+            if (rolesToAdd.Any())
+            {
+                await _userService.AddToRolesAsync(user, rolesToAdd, cancellationToken);
+            }
+
+            if (rolesToRemove.Any())
+            {
+                await _userService.RemoveFromRolesAsync(user, rolesToRemove, cancellationToken);
+            }
+
+            // update companies
+            await _userService.UpdateAssignedCompaniesAsync(request.UserId, request.CompanyIds, cancellationToken);
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return Result.Success();
         }
-
-        var updateResult = await _userManager.UpdateAsync(user);
-
-        if (!updateResult.Succeeded)
+        catch 
         {
-            var error = updateResult.Errors.First();
-            return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
         }
-
-        var currentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
-
-        if (currentRole != request.Role)
-        {
-            if (!string.IsNullOrEmpty(currentRole))
-                await _userManager.RemoveFromRoleAsync(user, currentRole);
-
-            await _userManager.AddToRoleAsync(user, request.Role);
-        }
-
-        return Result.Success();
     }
 }

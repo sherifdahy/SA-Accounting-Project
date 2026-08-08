@@ -5,22 +5,9 @@ using SA.Accounting.Core.Entities.Identity;
 
 namespace SA.Accounting.Infrastructure.Services;
 
-public class IdentityService(
-    UserManager<ApplicationUser> userManager,
-    RoleManager<ApplicationRole> roleManager,
-    IUnitOfWork unitOfWork) : IIdentityService
+public class IdentityService(UserManager<ApplicationUser> userManager) : IIdentityService
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager = roleManager;
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-
-    public Task<ApplicationUser?> FindByEmailAsync(
-        string email,
-        CancellationToken cancellationToken = default)
-    {
-        return _userManager.FindByEmailAsync(email);
-    }
-
     public async Task<LoginResult> ValidateLoginAsync(ApplicationUser user, string password, CancellationToken cancellationToken = default)
     {
         if (await _userManager.IsLockedOutAsync(user))
@@ -45,46 +32,5 @@ public class IdentityService(
         return LoginResult.Success;
     }
 
-    public async Task<IReadOnlyList<string>> GetRolesAsync(
-        ApplicationUser user,
-        CancellationToken cancellationToken = default)
-    {
-        var roles = await _userManager.GetRolesAsync(user);
-
-        return roles.ToList();
-    }
-
-    public async Task<IReadOnlyList<string>> GetRolePermissionsAsync(
-        string roleName,
-        CancellationToken cancellationToken = default)
-    {
-        var role = await _roleManager.FindByNameAsync(roleName);
-
-        if (role is null)
-            return [];
-
-        var claims = await _roleManager.GetClaimsAsync(role);
-
-        return claims
-            .Where(claim => claim.Type == Permissions.Type)
-            .Select(claim => claim.Value)
-            .Distinct()
-            .ToList();
-    }
-
-    public async Task<IReadOnlyList<string>> GetDeniedPermissionsAsync(
-        ApplicationUser user,
-        CancellationToken cancellationToken = default)
-    {
-        var deniedPermissions = await _unitOfWork.DeniedPermissions.FindAllAsync(
-            permission => permission.UserId == user.Id,
-            cancellationToken);
-
-        return deniedPermissions
-            .Select(permission => permission.Value)
-            .Distinct()
-            .ToList();
-    }
-
-
+   
 }
